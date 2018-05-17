@@ -20,6 +20,8 @@ namespace S_KYA.ashx
         {
             //初始化密码
             string pwd= StringHelper.MD5string("111111" + randomString(4));
+            //初始化密码
+            string pwdss = StringHelper.MD5string("111111" + randomString(4));
             context.Response.ContentType = "text/plain";
             var username = context.Request["username"];
             var password = context.Request["password"];
