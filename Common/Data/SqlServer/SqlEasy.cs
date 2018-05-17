@@ -32,6 +32,21 @@ namespace S_KYA_Common.Data.SqlServer
         }
         // public static string IP_connectionString = StringHelper.DecryptDES(ConfigurationManager.ConnectionStrings["IP_ConnectionString"].ConnectionString, "j7e5q1y%");
 
+        #region ExecuteDataset
+        public static DataSet ExecuteDataSet(string sql)
+        {
+            return SqlHelper.ExecuteDataset(connString, CommandType.Text, sql);
+        }
+        public static DataSet ExecuteDataSet(string sql, params SqlParameter[] para)
+        {
+            return SqlHelper.ExecuteDataset(connString, CommandType.Text, sql, para);
+        }
+
+        public static DataSet ExecuteDataSet(string connectionString, string sql, params SqlParameter[] para)
+        {
+            return SqlHelper.ExecuteDataset(connectionString, CommandType.Text, sql, para);
+        }
+        #endregion
 
         #region ExecuteDataTable
         public static DataTable ExecuteDataTable(string sql)
