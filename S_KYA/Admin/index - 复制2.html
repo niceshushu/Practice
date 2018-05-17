@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="script/easyui/themes/gray/easyui.css" rel="stylesheet" />
+    <link href="script/easyui/themes/icon.css" rel="stylesheet" />
+    <!--<script src="script/easyui/jquery.min.js"></script>-->
+    <script src="script/jquery-3.3.1.js"></script>
+    <script src="script/easyui/jquery.easyui.min.js"></script>
+    <style>
+        #accordion1 ul {
+            margin: 0px;
+            /*添加padding可以解决居中问题*/
+            padding: 10px;
+        }
+
+        #accordion1 li {
+            list-style: none;
+            padding: 5px;
+        }
+
+        .selected {
+            border: 1px solid #D69C00;
+            background-color: #FFE88C;
+            cursor: default;
+        }
+    </style>
+</head>
+<body class="easyui-layout">
+    <!--顶部Begin-->
+    <div data-options="region:'north',border:false" style="height:60px;background:#B3DFDA;padding:10px;">
+        <span style="font-size:32px;">可有爱后台管理</span>
+        <div style="position:absolute; right:5px;top:10px;" id="div_welcome">
+        </div>
+
+        <div style="position: absolute; right: 0px; bottom: 0px;">
+            <a href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-boss'" onclick="searchMyInfo();">我的信息</a>
+            <a href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-set1'" onclick="changePwd();">修改密码</a>
+            <a href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-stop'" onclick="loginOut();">退出系统</a>
+        </div>
+    </div>
+    <!--顶部End-->
+    <!--右侧导航栏Begin-->
+    <div data-options="region:'west',split:true,title:'功能导航'" style="width:200px;">
+        <div id="accordion1" class="easyui-accordion" fit="true" border="false">
+            <div title="系统设置" iconcls="icon-cog" style="padding:10px;">
+                <ul class="menuItem">
+                    <li>
+                        <div class="selected">
+                            <a ref="16" href="#" rel="page/sys/Sys_Menu.html">
+                                <span iconcls="icon-wrench_orange" class="icon icon-wrench_orange">&nbsp;</span>
+                                <span class="nav">菜单设置</span>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <a ref="16" href="#" rel="page/sys/Sys_Menu.html">
+                                <span iconcls="icon-wrench_orange" class="icon icon-wrench_orange">&nbsp;</span>
+                                <span class="nav">个性化设置2</span>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <a ref="16" href="#" rel="page/sys/Sys_Menu.html">
+                                <span iconcls="icon-wrench_orange" class="icon icon-wrench_orange">&nbsp;</span>
+                                <span class="nav">个性化设置3</span>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--右侧导航栏End-->
+    <!--中间部分Begin-->
+    <div data-options="region:'center'">
+        <!--不+title属性tab页就会自动上调-->
+        <div id="tt" class="easyui-tabs" data-options="fit:'true'">
+
+            <div data-options="closable:'true'" style="padding:20px;display:none;">
+                动态tab页面
+            </div>
+            <div title="首页2" data-options="closable:'true'" style="padding:20px;display:none;">
+                动态tab页面2
+            </div>
+
+            <div title="首页3" data-options="closable:'true'" style="padding:20px;display:none;">
+                动态tab页面3
+            </div>
+
+        </div>
+
+    </div>
+    <!--中间部分End-->
+
+    <script type="text/javascript">
+        $("#tt").tabs({
+            tools: [{
+                iconCls: 'icon-arrow_refresh',
+                text: "刷新",
+                handler: function () {
+
+                }
+            }, {
+                iconCls: 'icon-delete3',
+                text: "关闭全部",
+                handler: function () {
+
+                }
+            }]
+        });
+        function addTab(title, url, icon) {
+            console.log(title);
+            console.log(url);
+            console.log(icon);
+            if (url == "" || url == "#") {
+                return false;
+            }
+            console.log($("#tt").tabs("tabs").length);//当前面板的个数
+            var ttCount = $("#tt").tabs("tabs").length;
+            var hasTab = $('#tt').tabs('exists', title);
+            var add = function () {
+                if (!hasTab)
+                {
+                    $('#tt').tabs('add', {
+                        title: title,
+                        content: createFrame(url),
+                        closable: true,
+                        icon:icon
+                    });
+                }
+                else
+                {
+                    $('#tt').tabs('select', title)
+                }
+            }
+
+            if (ttCount > 5 && !hasTab) {
+                var msg = '<b>您当前打开了太多的页面，如果继续打开，会造成程序运行缓慢，无法流畅操作！</b>';
+                $.messager.confirm("系统提示", msg, function (b) {
+                    if (b) add();
+                    else return false;
+                });
+            } else {
+                add();
+            }
+        }
+        function createFrame(url)
+        { 
+            var s = '<frame scrolling="auto" frameborder="0" style="width:100%;height:100%" src="' + url + '"></iframe>';
+            return s;
+        }
+
+        $(function () {
+            // $.on() &.live()
+            $('.menuItem li').on({
+                click: function () {
+                    //应为是最外层的li点击，所以他的子节点一定是固定的
+                    var a = $(this).children('div').children('a');
+                    var title = $(a).children('.nav').text();
+                    var url=$(a).attr("rel");
+                    var icon=$(a).children(".icon").attr("class");
+                    addTab(title, url, icon);
+
+                    $('.accordion li div').removeClass("selected");
+                    $(this).children('div').addClass("selected");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
