@@ -12,4 +12,9 @@ jq 1.9 以上版本，废除了 live，用$.on()代替
 4
 菜单左侧，如何改变颜色，用$('.xxx').on({click:function()}), 
 思考：要做变色，只用考虑共同的父类，然后给父类加点击事件,来控制子类
-
+5
+顶部有个滚动条一直没搞明白是怎么回事，原因，去掉padding就可以去掉了
+源代码：
+<div data-options="region:'north',border:false" style="height:60px;background:#B3DFDA;padding:10px;">
+改后的：
+<div data-options="region:'north',border:false" style="height:60px;background:#B3DFDA;">

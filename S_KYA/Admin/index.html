@@ -45,40 +45,12 @@
     <div data-options="region:'west',split:true,title:'功能导航'" style="width:200px;">
         <div id="accordion1" class="easyui-accordion" fit="true" border="false">
             <div title="系统设置" iconcls="icon-cog" style="padding:10px;">
-                <ul class="menuItem">
-                    <li>
-                        <div class="selected">
-                            <a ref="16" href="#" rel="page/sys/Sys_Menu.html">
-                                <span iconcls="icon-wrench_orange" class="icon icon-wrench_orange">&nbsp;</span>
-                                <span class="nav">菜单设置</span>
-                            </a>
-                        </div>
-                    </li>
-                    <li>
-                        <div>
-                            <a ref="16" href="#" rel="page/sys/Sys_Menu.html">
-                                <span iconcls="icon-wrench_orange" class="icon icon-wrench_orange">&nbsp;</span>
-                                <span class="nav">个性化设置2</span>
-                            </a>
-                        </div>
-                    </li>
-                    <li>
-                        <div>
-                            <a ref="16" href="#" rel="page/sys/Sys_Menu.html">
-                                <span iconcls="icon-wrench_orange" class="icon icon-wrench_orange">&nbsp;</span>
-                                <span class="nav">个性化设置3</span>
-                            </a>
-                        </div>
-                    </li>
-                    <li>
-                        <div id="accordion1" class="easyui-accordion" fit="true" border="false">
-                            <div title="系统设置" iconcls="icon-cog" style="padding:10px;">
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+
             </div>
+            <ul id="tt2"></ul>
         </div>
+
+    
     </div>
     <!--右侧导航栏End-->
     <!--中间部分Begin-->
@@ -118,6 +90,178 @@
                 }
             }]
         });
+        $('#tt2').tree({
+            data: [
+                {
+                    "id": "COMMON_NULL",
+                    "text": "参数管理",
+                    "state": "closed",
+                    "children": [
+                        {
+                            "id": "/ParameterManagement/Cus/PARA_TABLE_CUS/List.aspx",
+                            "text": "业务参数库设置"
+                        },
+                        {
+                            "id": "/ParameterManagement/Cus/COD_CUS_CUSTOMCODE/List.aspx",
+                            "text": "海关参数库"
+                        },
+                        {
+                            "id": "/ParameterManagement/Cus/EXCHANGE_RATE/List.aspx",
+                            "text": "汇率维护"
+                        },
+                        {
+                            "id": "/ParameterManagement/Cus/COD_AREAS/List.aspx",
+                            "text": "监管场所码维护"
+                        }
+                    ]
+                },
+                {
+                    "id": "COMMON_NULL",
+                    "text": "企业备案管理",
+                    "state": "closed",
+                    "children": [
+                        {
+                            "id": "/BusinessManagement/Cus/KJ_COURIER_COMPANIES_DATA/List.aspx",
+                            "text": "电商接入企业资料管理"
+                        },
+                        {
+                            "id": "/BusinessManagement/Cus/KJ_COURIER_COMPANIES_DATA/List.aspx?isView=1",
+                            "text": "电商接入企业资料查询"
+                        },
+                        {
+                            "id": "/BusinessManagement/Cus/KJ_ENT_DATA_APPLI/List.aspx",
+                            "text": "电商企业备案申请审核"
+                        },
+                        {
+                            "id": "/BusinessManagement/Cus/KJ_ENT_DATA_APPLI/List.aspx?isView=1",
+                            "text": "电商企业备案申请查询"
+                        },
+                        {
+                            "id": "/BusinessManagement/Cus/KJ_ENT_DATA_RECORD/List.aspx",
+                            "text": "电商企业备案资料管理"
+                        },
+                        {
+                            "id": "/BusinessManagement/Cus/KJ_ENT_DATA_RECORD/List.aspx?isView=1",
+                            "text": "电商企业备案资料查询"
+                        }
+                    ]
+                },
+                {
+                    "id": "COMMON_NULL",
+                    "text": "商品备案管理",
+                    "state": "closed",
+                    "children": [
+                        {
+                            "id": "/BusinessManagement/Cus/KJ_GOODS_DATA_APPLY/List.aspx",
+                            "text": "电商企业商品备案申请审核"
+                        },
+                        {
+                            "id": "COMMON_NULL",
+                            "text": "电商企业商品备案申请查询",
+                            "state": "closed",
+                            "children": [
+                                {
+                                    "id": "COMMON_NULL",
+                                    "text": "测试"
+                                }
+                            ]
+
+                        },
+                        {
+                            "id": "COMMON_NULL",
+                            "text": "电商企业备案商品管理"
+                        },
+                        {
+                            "id": "COMMON_NULL",
+                            "text": "电商企业备案商品查询"
+                        }
+                    ]
+                },
+                {
+                    "id": "COMMON_NULL",
+                    "text": "清单管理",
+                    "state": "closed",
+                    "children": [
+                        {
+                            "id": "/BusinessManagement/Cus/KJ_CROSS_BORDER_E_HEAD/List.aspx?isAudit=1",
+                            "text": "电商出境货物清单审核"
+                        },
+                        {
+                            "id": "/BusinessManagement/Cus/KJ_CROSS_BORDER_E_HEAD/List.aspx?isManage=1",
+                            "text": "电商出境货物清单管理"
+                        },
+                        {
+                            "id": "/BusinessManagement/Cus/KJ_CROSS_BORDER_E_HEAD/List.aspx?isView=1",
+                            "text": "电商出境货物清单查询"
+                        }
+                    ]
+                },
+                {
+                    "id": "COMMON_NULL",
+                    "text": "清单汇总",
+                    "state": "closed",
+                    "children": [
+                        {
+                            "id": "COMMON_NULL",
+                            "text": "电商企业清单汇总定制条件查询"
+                        },
+                        {
+                            "id": "COMMON_NULL",
+                            "text": "电商出境货物清单汇总查询"
+                        }
+                    ]
+                },
+                {
+                    "id": "COMMON_NULL",
+                    "text": "统计查询",
+                    "state": "closed",
+                    "children": [
+                        {
+                            "id": "COMMON_NULL",
+                            "text": "企业备案信息统计"
+                        },
+                        {
+                            "id": "COMMON_NULL",
+                            "text": "商品备案信息统计"
+                        },
+                        {
+                            "id": "COMMON_NULL",
+                            "text": "清单信息统计"
+                        },
+                        {
+                            "id": "COMMON_NULL",
+                            "text": "汇总清单统计"
+                        }
+                    ]
+                },
+                {
+                    "id": "COMMON_NULL",
+                    "text": "系统管理",
+                    "state": "closed",
+                    "children": [
+                        {
+                            "id": "/sys/sys_Role/List.aspx",
+                            "text": "角色管理"
+                        },
+                        {
+                            "id": "/sys/sys_User/List.aspx",
+                            "text": "用户管理"
+                        },
+                        {
+                            "id": "/sys/sys_Param/List.aspx",
+                            "text": "参数维护"
+                        },
+                        {
+                            "id": "/sys/funcMenu/menuFrame.aspx",
+                            "text": "菜单管理"
+                        }
+                    ]
+                }
+            ]
+        });
+
+
+
         function addTab(title, url, icon) {
             console.log(title);
             console.log(url);
