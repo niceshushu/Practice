@@ -1,0 +1,26 @@
+﻿<form id="loginForm">
+    <div>
+        <table>
+            <tr>
+                <td>用户名:</td>
+                <td><input autocomplete="off" type="text" class="easyui-validatebox" name="username" id="txtUserName" data-options="required:true,missingMessage:'请输入用户名'" /></td>
+            </tr>
+            <tr>
+                <td>密  码:</td>
+                <td><input autocomplete="off" type="password" class="easyui-validatebox" name="password" id="txtPassWord" data-options="required:true,missingMessage:'请输入密码'" /></td>
+            </tr>
+            <tr>
+                <td>保存密码:</td>
+                <td><input type="text" name="savedays" id="txt_save" /></td>
+            </tr>
+            <tr>
+                <td>验证码:</td>
+                <td><input autocomplete="off" type="text" class="easyui-validatebox" name="validateCode" id="txtValidateCode" data-options="required:true,missingMessage:'请输入验证码'" /></td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td><img alt="验证码" title="看不清点击切换验证码" maxlength="4" id="imgValidateCode" src="../ashx/ValidateCode.ashx?t=4" /></td>
+            </tr>
+        </table>
+    </div>
+</form>

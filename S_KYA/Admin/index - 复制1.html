@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="script/easyui/themes/gray/easyui.css" rel="stylesheet" />
+    <link href="script/easyui/themes/icon.css" rel="stylesheet" />
+    <script src="script/easyui/jquery.min.js"></script>
+    <script src="script/easyui/jquery.easyui.min.js"></script>
+    <style>
+        #accordion1 li {
+         list-style-type:none;
+         padding:4px 0px 4px 0px;
+        }
+    </style>
+</head>
+<body class="easyui-layout">
+    <!--顶部Begin-->
+    <div data-options="region:'north',border:false" style="height:60px;background:#B3DFDA;padding:10px;">
+        <span style="font-size:32px;">可有爱后台管理</span>
+        <div style="position:absolute; right:5px;top:10px;" id="div_welcome">
+        </div>
+
+        <div style="position: absolute; right: 0px; bottom: 0px;">
+            <a href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-boss'" onclick="searchMyInfo();">我的信息</a>
+            <a href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-set1'" onclick="changePwd();">修改密码</a>
+            <a href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-stop'" onclick="loginOut();">退出系统</a>
+        </div>
+    </div>
+    <!--顶部End-->
+    <!--右侧导航栏Begin-->
+    <div data-options="region:'west',split:true,title:'功能导航'" style="width:200px;">  
+        <div id="accordion1" class="easyui-accordion" fit="true" border="false">
+
+            <div title="系统设置" iconcls="icon-cog" style="padding:10px;">
+                <ul>
+                    <li>
+                        <div>
+                            <a ref="16" href="#" rel="sys/SysConfig.aspx?navid=16"><span iconcls="icon-wrench_orange" class="icon icon-wrench_orange">&nbsp;</span><span class="nav">个性化设置</span></a>
+                        </div>
+                    </li> 
+                    <li>2</li>
+                    <li>3</li>
+                </ul>
+            </div>
+
+            <div title="系统设置" data-options="iconCls:'icon-save'" style="overflow:auto;padding:10px;">
+              
+            </div>
+            <div title="About easyui" iconcls="icon-reload"  style="padding:10px;">
+              
+            </div>
+            <div title="div？" selected="true" style="padding:10px;">
+
+            </div>
+
+        </div>
+    </div>
+    <!--右侧导航栏End-->
+    <!--中间部分Begin-->
+    <div data-options="region:'center'">
+        <!--不+title属性tab页就会自动上调-->
+        <div id="tt" class="easyui-tabs" data-options="fit:'true'">
+
+            <div  data-options="closable:'true'" style="padding:20px;display:none;">
+                动态tab页面
+            </div>
+            <div title="首页2" data-options="closable:'true'" style="padding:20px;display:none;">
+                动态tab页面2
+            </div>
+
+            <div title="首页3" data-options="closable:'true'" style="padding:20px;display:none;">
+                动态tab页面3
+            </div>
+
+        </div>
+
+    </div>
+    <!--中间部分End-->
+
+    <script type="text/javascript">
+        $("#tt").tabs({
+            tools: [{
+                iconCls: 'icon-arrow_refresh',
+                text: "刷新",
+                handler: function () {
+
+                }
+            }, {
+                iconCls: 'icon-delete3',
+                text: "关闭全部",
+                handler: function () {
+
+                }
+            }]
+        });
+    </script>
+</body>
+</html>
