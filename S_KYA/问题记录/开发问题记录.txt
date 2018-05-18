@@ -18,3 +18,5 @@ jq 1.9 以上版本，废除了 live，用$.on()代替
 <div data-options="region:'north',border:false" style="height:60px;background:#B3DFDA;padding:10px;">
 改后的：
 <div data-options="region:'north',border:false" style="height:60px;background:#B3DFDA;">
+6 使用easyuiTree控件前面有个三角符号是怎么出现的，只需要有子项目的设置就好了
+那就是去掉status这个\"state\":\"closed\", 在拼json的时候这个就要去掉

@@ -14,7 +14,7 @@ namespace S_KYA_Common
     /// <summary>
     /// JSON 帮助类
     /// </summary>
-    public class JSONhelper
+    public static class JSONhelper
     {
         /// <summary>
         /// 将JSON转换为指定类型的对象

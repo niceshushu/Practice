@@ -1,10 +1,65 @@
-﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title></title>
-</head>
-<body>
-    11111
-</body>
-</html>
+﻿<div id="cc" class="easyui-layout" style="width:100%;height:100%">
+    <div id="sysmenumain" data-options="region:'west',title:'West',split:true,tools:'#ttss'" style="width:200px;">
+        <ul id="tt" class="easyui-tree">
+            <li>
+                <span>Folder</span>
+                <ul>
+                    <li>
+                        <span>Sub Folder 1</span>
+                        <ul>
+                            <li>
+                                <span><a href="#">File 11</a></span>
+                            </li>
+                            <li>
+                                <span>File 12</span>
+                            </li>
+                            <li>
+                                <span>File 13</span>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span>File 2</span>
+                    </li>
+                    <li>
+                        <span>File 3</span>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <span>File21</span>
+            </li>
+        </ul>
+
+    </div>
+    <div data-options="region:'center'" style="padding:5px;background:#eee;">
+       
+        <form id="ff" method="post">
+            <div style="height: 30px; line-height: 30px; background:#efefef;">
+                <a id="btn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加</a>
+                <a id="btn1" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-delete'">删除</a>
+                <a id="btn2" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit'">修改</a>
+            </div>
+
+            <div>
+                <label for="name">Name:</label>
+                <input class="easyui-validatebox" type="text" name="name" data-options="required:true" />
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input class="easyui-validatebox" type="text" name="email" data-options="validType:'email'" />
+            </div>
+        </form>
+
+    </div>
+    <div id="ttss">
+        <a href="#" class="icon-add" onclick="javascript:alert('add')"></a>
+        <a href="#" class="icon-edit" onclick="javascript:alert('edit')"></a>
+    </div>
+
+</div>
+<script>
+    $(function () {
+
+    });
+</script>

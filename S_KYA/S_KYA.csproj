@@ -531,6 +531,8 @@
     <Content Include="Admin\script\easyui\themes\material\images\Thumbs.db" />
     <Content Include="Admin\script\jquery-3.3.1.js" />
     <Content Include="问题记录\开发问题记录.txt" />
+    <Content Include="Admin\ashx\sys\Sys_MenuHandler.ashx" />
+    <Content Include="Admin\ashx\sys\Easyui_MenuTreeHandler.ashx" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -546,6 +548,12 @@
   <ItemGroup>
     <Compile Include="Admin\ashx\LoginHandler.ashx.cs">
       <DependentUpon>LoginHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ashx\sys\Easyui_MenuTreeHandler.ashx.cs">
+      <DependentUpon>Easyui_MenuTreeHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ashx\sys\Sys_MenuHandler.ashx.cs">
+      <DependentUpon>Sys_MenuHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="Admin\ashx\ValidateCode.ashx.cs">
       <DependentUpon>ValidateCode.ashx</DependentUpon>

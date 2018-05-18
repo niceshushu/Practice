@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using S_KYA_Core.Model;
 using System.Data;
+using S_KYA_Common.Data.SqlServer;
 namespace S_KYA_Core.Dal
 {
     public class Dal_Sys_User
@@ -18,7 +19,7 @@ namespace S_KYA_Core.Dal
         {
             try
             {
-                DataTable dt = S_KYA_Common.Data.SqlServer.SqlEasy.ExecuteDataTable(string.Format("SELECT * FROM Sys_User WHERE UserName='{0}'", UserName));
+                DataTable dt =SqlEasy.ExecuteDataTable(string.Format("SELECT * FROM Sys_User WHERE UserName='{0}'", UserName));
                 Mod_Sys_User Sys_User = null;
                 if (dt.Rows.Count == 1)
                 {
@@ -44,7 +45,6 @@ namespace S_KYA_Core.Dal
 
             catch (Exception)
             {
-
                 throw;
             }
         }
