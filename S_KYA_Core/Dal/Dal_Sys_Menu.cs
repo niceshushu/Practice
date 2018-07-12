@@ -51,11 +51,11 @@ namespace S_KYA_Core.Dal
             strSql.Append(") ");
             strSql.Append(";select @@IDENTITY");
             SqlParameter[] parameters = {
-                        new SqlParameter(" @Pid", SqlDbType.Int,4) ,
-                        new SqlParameter(" @MenuName", SqlDbType.NVarChar,100) ,
-                        new SqlParameter(" @Menu_Url", SqlDbType.NVarChar,500) ,
-                        new SqlParameter(" @Icon", SqlDbType.VarChar,50) ,
-                        new SqlParameter(" @Sort", SqlDbType.Int,4)
+                        new SqlParameter("@Pid", SqlDbType.Int,4) ,
+                        new SqlParameter("@MenuName", SqlDbType.NVarChar,100) ,
+                        new SqlParameter("@Menu_Url", SqlDbType.NVarChar,500) ,
+                        new SqlParameter("@Icon", SqlDbType.VarChar,50) ,
+                        new SqlParameter("@Sort", SqlDbType.Int,4)
 
             };
 

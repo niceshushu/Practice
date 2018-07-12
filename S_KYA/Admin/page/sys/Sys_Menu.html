@@ -1,65 +1,160 @@
 ﻿<div id="cc" class="easyui-layout" style="width:100%;height:100%">
-    <div id="sysmenumain" data-options="region:'west',title:'West',split:true,tools:'#ttss'" style="width:200px;">
-        <ul id="tt" class="easyui-tree">
-            <li>
-                <span>Folder</span>
-                <ul>
-                    <li>
-                        <span>Sub Folder 1</span>
-                        <ul>
-                            <li>
-                                <span><a href="#">File 11</a></span>
-                            </li>
-                            <li>
-                                <span>File 12</span>
-                            </li>
-                            <li>
-                                <span>File 13</span>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <span>File 2</span>
-                    </li>
-                    <li>
-                        <span>File 3</span>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <span>File21</span>
-            </li>
-        </ul>
-
+    <div id="sysmenumain" data-options="region:'west',title:'菜单管理',split:true,tools:'#ttss'" style="width:200px;height:100%">
+        <div id="pmenu_accordion" style="width:200px;">
+            <ul id="pmenu_tree"></ul>
+        </div>
     </div>
     <div data-options="region:'center'" style="padding:5px;background:#eee;">
-       
-        <form id="ff" method="post">
-            <div style="height: 30px; line-height: 30px; background:#efefef;">
-                <a id="btn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加</a>
-                <a id="btn1" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-delete'">删除</a>
-                <a id="btn2" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit'">修改</a>
-            </div>
-
+        <div style="height: 30px; line-height: 30px; background:#efefef;">
+            <a id="btnAdd" href="#" class="easyui-linkbutton" onclick="psysMenu_add();" data-options="iconCls:'icon-add'">添加</a>
+            <a id="btnUpdate" href="#" class="easyui-linkbutton" onclick="psysMenu_edit();" data-options="iconCls:'icon-edit'">修改</a>
+            <a id="btnDelete" href="#" class="easyui-linkbutton" onclick="psysMenu_delete();" data-options="iconCls:'icon-delete'">删除</a>
+            <a id="btnSave" href="#" class="easyui-linkbutton" onclick="psysMenu_save();" data-options="iconCls:'icon-save'">保存</a>
+        </div>
+        <form id="psysmenu" method="post">
+            <!--页面操作类型-->
+            <input id="psm_opertype" name="psm_opertype" type="hidden" />
             <div>
-                <label for="name">Name:</label>
-                <input class="easyui-validatebox" type="text" name="name" data-options="required:true" />
+                <label for="pmenuId">Id:</label>
+                <input class="easyui-validatebox " type="text" id="pmenuId" name="pmenuId" data-options="required:true" />
             </div>
             <div>
-                <label for="email">Email:</label>
-                <input class="easyui-validatebox" type="text" name="email" data-options="validType:'email'" />
+                <label for="pmenuPid">Pid:</label>
+                <input class="easyui-validatebox " type="text" id="pmenuPid" name="pmenuPid" data-options="required:true" />
+            </div>
+            <div>
+                <label for="pmenuName">Name:</label>
+                <input class="easyui-validatebox" type="text" id="pmenuName" name="pmenuName" data-options="required:true" />
+            </div>
+            <div>
+                <label for="pmenuMenu_Url">Menu_Url:</label>
+                <input class="easyui-validatebox" type="text" id="pmenuMenu_Url" name="pmenuMenu_Url" data-options="validType:'true'" />
+            </div>
+            <div>
+                <label for="pmenuIcon">Icon:</label>
+                <input class="easyui-validatebox" type="text" id="pmenuIcon" name="pmenuIcon" data-options="validType:'true'" />
+            </div>
+            <div>
+                <label for="pmenuSort">Sort:</label>
+                <input class="easyui-validatebox easyui-numberbox" type="text" id="pmenuSort" name="pmenuSort" data-options="validType:'true'" />
             </div>
         </form>
-
     </div>
     <div id="ttss">
         <a href="#" class="icon-add" onclick="javascript:alert('add')"></a>
         <a href="#" class="icon-edit" onclick="javascript:alert('edit')"></a>
     </div>
-
 </div>
 <script>
-    $(function () {
+    function addTree() {
+        //1初始化accordion
+        $("#pmenu_accordion").accordion({
+            fit: true,
+            border: false
+        });
+        //2加载数据 pid=0为最顶层开始
+        $.post('ashx/sys/Easyui_MenuTreeHandler.ashx',
+            {
+                pid: "0",
+                t: Math.random(),
+                floor: "all"
+            },
+            function (rdata) {
+                setReadOnly(false);
+                console.log(rdata);
+                $("#pmenu_tree").tree({
+                    data: rdata,
+                    onClick: function (node) {
+                        console.log(node.id);
+                        console.log(node.text + ":" + node.state);
+                        //$(this).tree(node.state === 'closed' ? 'expand' : 'collapse', node.target);
+                        //node.state = node.state === 'closed' ? 'open' : 'closed';
+                        $("#pmenuId").val(node.id);
+                        $("#pmenuPid").val(node.pid);
+                        $("#pmenuName").val(node.text);
+                        $("#pmenuMenu_Url").val(node.attributes);
+                        $("#pmenuIcon").val(node.iconCls);
+                        $("#pmenuSort").val(node.sort);
+                    }
+                });
+                //折叠起来
+                $("#pmenu_tree").tree("collapseAll");
+            }, 'json'
+        );
+    }
 
+    $(function () {
+        addTree();
     });
+
+    //保存事件
+    function psysMenu_save() {
+        var param = $("form").serialize();
+        console.log(param);
+        $.ajax({
+            url: 'ashx/sys/Sys_MenuHandler.ashx',
+            dataType: "json",
+            type:"post",
+            async: false,
+            data: param,
+            success: function (data) {
+                if (data.StatuCode == "200") {
+                    $.messager.alert(data.Message);
+                    addTree();
+                }
+                console.log(data);
+            }
+        });
+    }
+
+
+    //添加按钮事件
+    function psysMenu_add() {
+        //设置页面操作类型
+        $("#psm_opertype").val("Insert");
+        //1清空控件值
+        clearControlVal();
+        //2打开所有控件可读
+        setReadOnly(true);
+        $("#pmenuId").attr("readonly", "false");
+        //$("#pmenuPid").attr("readonly", "false");父节点是根据选择来的，不能修改
+        //3获得当前选择的父节点ID,并赋值
+        var node = $('#pmenu_tree').tree('getSelected');	//
+        if (node == null) {
+            $("#pmenuPid").val("0");//不选择就是添加根节点，需要改进
+        }
+        else {
+            console.log("选择的父节点ID是：" + node.id);
+            $("#pmenuPid").val(node.id);
+        }
+
+
+    }
+    //修改按钮事件
+    function psysMenu_edit() {
+
+    }
+    //删除事件
+    function psysMenu_delete() {
+
+    }
+
+    //清空控件值
+    function clearControlVal() {
+        $("#pmenuId").val("");
+        $("#pmenuPid").val("");
+        $("#pmenuName").val("");
+        $("#pmenuMenu_Url").val("");
+        $("#pmenuIcon").val("");
+        $("#pmenuSort").val("");
+    }
+    //设置不可编辑
+    function setReadOnly(canEdit) {
+        $("#pmenuId").attr("readonly", "true");
+        $("#pmenuPid").attr("readonly", "true");
+        $("#pmenuName").attr("readonly", !canEdit);
+        $("#pmenuMenu_Url").attr("readonly", !canEdit);
+        $("#pmenuIcon").attr("readonly", !canEdit);
+        $("#pmenuSort").attr("readonly", !canEdit);
+    }
 </script>

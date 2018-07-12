@@ -14,12 +14,15 @@
             background-color: #FFE88C;
             cursor: default;
         }
+        .readonly {
+        background-color:#eee;
+        }
     </style>
 </head>
 <body class="easyui-layout">
     <!--顶部Begin-->
     <div data-options="region:'north',border:false" style="height:60px;background:#B3DFDA;">
-        <span style="font-size:32px;">可有爱后台管理</span>
+        <span style="font-size:32px;"></span>
         <div style="position:absolute; right:5px;top:10px;" id="div_welcome">
         </div>
 
@@ -30,12 +33,12 @@
         </div>
     </div>
     <!--顶部End-->
-    <!--右侧导航栏Begin-->
+    <!--左侧导航栏Begin-->
     <div data-options="region:'west',split:true,title:'功能导航'" style="width:200px;">
         <div id="accordion1">
         </div>
     </div>
-    <!--右侧导航栏End-->
+    <!--左侧导航栏End-->
     <!--中间部分Begin-->
     <div data-options="region:'center'">
         <!--不+title属性tab页就会自动上调-->
@@ -123,9 +126,9 @@
                     floor: 'one'
                 },
                 function (data) {
-
                     $.each(data, function (i, e) {
                         var id = e.MenuId
+
                         $('#accordion1').accordion('add', {
                             title: e.MenuName,
                             content: "<ul id='tree" + id + "' ></ul>",
@@ -156,12 +159,11 @@
                                 //因为没有设置\"state\":\"closed\" 默认是展开的，所以需要关闭
                                 $("#tree" + id).tree("collapseAll");
 
-                            }
-                            , 'json');
+                            } , 'json');
                     });
-                },
-                'json'
-            );
+                },'json');
+
+
         });
 
     </script>

@@ -55,8 +55,10 @@ namespace S_KYA.Admin.ashx.sys
                 sb.Append("{");
                 sb.Append($"\"id\":{dt.Rows[i]["MenuId"]},\"text\":\"{dt.Rows[i]["MenuName"]}\",\"iconCls\":\"{dt.Rows[i]["Icon"]}\"");
                 sb.Append($",\"attributes\":\"{dt.Rows[i]["Menu_Url"]}\"");
- 
-                 sb.Append(",\"children\":");
+                sb.Append($",\"sort\":\"{dt.Rows[i]["Sort"]}\"");
+                sb.Append($",\"pid\":\"{dt.Rows[i]["Pid"]}\"");
+
+                sb.Append(",\"children\":");
                 sb.Append(getaddData(dt.Rows[i]["MenuId"].ToString()));
                 if (i == dt.Rows.Count - 1)
                 {
