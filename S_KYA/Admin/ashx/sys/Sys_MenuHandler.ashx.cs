@@ -28,6 +28,8 @@ namespace S_KYA.Admin.ashx.sys
                     context.Response.End();
                     break;
                 case "Delete":
+                    DeleteSys_Menue();
+                    context.Response.End();
                     break;
                 case "Search":
                     break;
@@ -79,6 +81,27 @@ namespace S_KYA.Admin.ashx.sys
             HttpContext.Current.Response.Write(JSONhelper.ToJson(mod_Com_Json));
         }
 
+        /// <summary>
+        /// 删除菜单
+        /// </summary>
+        public void DeleteSys_Menue()
+        {
+            Mod_Sys_Menu _Sys_Menu = new Mod_Sys_Menu();
+            BindDataToModel(ref _Sys_Menu);
+            bool rval = Bll_Sys_Menu.Instance.Delete(_Sys_Menu.MenuId);
+            Mod_Com_Json mod_Com_Json = new Mod_Com_Json();
+            if (rval)
+            {
+                mod_Com_Json.Message = "删除成功";
+                mod_Com_Json.StatuCode = "200";
+            }
+            else
+            {
+                mod_Com_Json.Message = "删除失败";
+                mod_Com_Json.StatuCode = "-1";
+            }
+            HttpContext.Current.Response.Write(JSONhelper.ToJson(mod_Com_Json));
+        }
 
         public void BindDataToModel(ref Mod_Sys_Menu _Sys_Menu)
         {

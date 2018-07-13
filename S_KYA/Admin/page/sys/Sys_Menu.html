@@ -46,7 +46,7 @@
     </div>
 </div>
 <script>
-    function addTree() {
+    function psmAddTree() {
         //1初始化accordion
         $("#pmenu_accordion").accordion({
             fit: true,
@@ -60,7 +60,7 @@
                 floor: "all"
             },
             function (rdata) {
-                setReadOnly(false);
+                psmSetReadOnly(false);
                 console.log(rdata);
                 $("#pmenu_tree").tree({
                     data: rdata,
@@ -84,7 +84,7 @@
     }
 
     $(function () {
-        addTree();
+        psmAddTree();
     });
 
     //保存事件
@@ -94,13 +94,13 @@
         $.ajax({
             url: 'ashx/sys/Sys_MenuHandler.ashx',
             dataType: "json",
-            type:"post",
+            type: "post",
             async: false,
             data: param,
             success: function (data) {
                 if (data.StatuCode == "200") {
-                    $.messager.alert("提示",data.Message);
-                    addTree();
+                    $.messager.alert("提示", data.Message);
+                    psmAddTree();
                 }
                 console.log(data);
             }
@@ -113,9 +113,9 @@
         //设置页面操作类型
         $("#psm_opertype").val("Insert");
         //1清空控件值
-        clearControlVal();
+        psmClearControlVal();
         //2打开所有控件可读
-        setReadOnly(true);
+        psmSetReadOnly(true);
         $("#pmenuId").attr("readonly", "false");
         //$("#pmenuPid").attr("readonly", "false");父节点是根据选择来的，不能修改
         //3获得当前选择的父节点ID,并赋值
@@ -135,9 +135,9 @@
         //设置页面操作类型
         $("#psm_opertype").val("Update");
         //给选中的节点赋值
-        if (SetValue()) {
+        if (psmSetValue()) {
             //数据可读
-            setReadOnly(true);
+            psmSetReadOnly(true);
         }
 
     }
@@ -145,22 +145,39 @@
     function psysMenu_delete() {
         $("#psm_opertype").val("Delete");
         //给选中的节点赋值
-        if (SetValue()) {
+        if (psmSetValue()) {
             //数据可读
-            setReadOnly(false);
-            //调用保存事件
-            psysMenu_save();
+            psmSetReadOnly(false);
+            $.messager.confirm('提醒', '确定删除吗?', function (r) {
+                if (!r) {
+                    return false;
+                }
+                else {
+                    //调用保存事件
+                    psysMenu_save();
+                }
+            });   
         }
 
     }
     //判断是否有选中的节点,并赋值
-    function SetValue() {
-        clearControlVal();
+    function psmSetValue() {
+        psmClearControlVal();
         var node = $('#pmenu_tree').tree('getSelected');	//
         if (node == null) {
             $.messager.alert("提示", "暂未有选中的节点!");
             return false;
         }
+        if ($("#psm_opertype").val() == "Delete") {
+            //获取所选节点的所有子节点
+            var tree = $('#pmenu_tree').tree('getChildren', node.target);
+            if (tree.length > 0) {
+                $.messager.alert("提示", "当前节点存在子节点，无法删除，请先删除子节点!");
+                return false;
+            }
+        }
+
+
         $("#pmenuId").val(node.id);
         $("#pmenuPid").val(node.pid);
         $("#pmenuName").val(node.text);
@@ -170,8 +187,25 @@
         return true;
     }
 
+    //function getChildren(id/*节点ID*/) {
+    //    var $tree = $('#pmenu_tree');
+    //    var node = $tree.tree('find', id);
+    //    var childrenNodes = $tree.tree('getChildren', node.target);
+    //    return childrenNodes;
+    //}
+
+    //某节点的一级节点
+    //function getSubChildren(id) {
+    //    var $tree = $('#pmenu_tree');
+    //    var node = $tree.tree('find', id);
+    //    var subNodes = []; $(node.target).next().children().children("div.tree-node").each(function () {
+    //                subNodes.push($tree.tree('getNode', this));
+    //    });
+    //    return subNodes;
+    //}
+
     //清空控件值
-    function clearControlVal() {
+    function psmClearControlVal() {
         $("#pmenuId").val("");
         $("#pmenuPid").val("");
         $("#pmenuName").val("");
@@ -180,7 +214,7 @@
         $("#pmenuSort").val("");
     }
     //设置不可编辑
-    function setReadOnly(canEdit) {
+    function psmSetReadOnly(canEdit) {
         $("#pmenuId").attr("readonly", "true");
         $("#pmenuPid").attr("readonly", "true");
         $("#pmenuName").attr("readonly", !canEdit);

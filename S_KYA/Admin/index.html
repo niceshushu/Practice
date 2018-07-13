@@ -113,12 +113,13 @@
 
         //初始化页面
         $(function () {
-
+            initPage();
+        });
+        function initPage() {
             $("#accordion1").accordion({//初始化accordion
                 fit: true,
                 border: false
             });
-
             $.post('ashx/sys/Easyui_MenuTreeHandler.ashx',
                 {
                     pid: '0',
@@ -159,13 +160,10 @@
                                 //因为没有设置\"state\":\"closed\" 默认是展开的，所以需要关闭
                                 $("#tree" + id).tree("collapseAll");
 
-                            } , 'json');
+                            }, 'json');
                     });
-                },'json');
-
-
-        });
-
+                }, 'json');
+        }
     </script>
 </body>
 </html>
