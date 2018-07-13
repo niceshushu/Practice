@@ -28,15 +28,15 @@
             </div>
             <div>
                 <label for="pmenuMenu_Url">Menu_Url:</label>
-                <input class="easyui-validatebox" type="text" id="pmenuMenu_Url" name="pmenuMenu_Url" data-options="validType:'true'" />
+                <input class="easyui-validatebox" type="text" id="pmenuMenu_Url" name="pmenuMenu_Url" data-options="required:'true'" />
             </div>
             <div>
                 <label for="pmenuIcon">Icon:</label>
-                <input class="easyui-validatebox" type="text" id="pmenuIcon" name="pmenuIcon" data-options="validType:'true'" />
+                <input class="easyui-validatebox" type="text" id="pmenuIcon" name="pmenuIcon" data-options="required:'true'" />
             </div>
             <div>
                 <label for="pmenuSort">Sort:</label>
-                <input class="easyui-validatebox easyui-numberbox" type="text" id="pmenuSort" name="pmenuSort" data-options="validType:'true'" />
+                <input class="easyui-validatebox easyui-numberbox" type="text" id="pmenuSort" name="pmenuSort" />
             </div>
         </form>
     </div>
@@ -99,7 +99,7 @@
             data: param,
             success: function (data) {
                 if (data.StatuCode == "200") {
-                    $.messager.alert(data.Message);
+                    $.messager.alert("提示",data.Message);
                     addTree();
                 }
                 console.log(data);
@@ -132,11 +132,42 @@
     }
     //修改按钮事件
     function psysMenu_edit() {
+        //设置页面操作类型
+        $("#psm_opertype").val("Update");
+        //给选中的节点赋值
+        if (SetValue()) {
+            //数据可读
+            setReadOnly(true);
+        }
 
     }
     //删除事件
     function psysMenu_delete() {
+        $("#psm_opertype").val("Delete");
+        //给选中的节点赋值
+        if (SetValue()) {
+            //数据可读
+            setReadOnly(false);
+            //调用保存事件
+            psysMenu_save();
+        }
 
+    }
+    //判断是否有选中的节点,并赋值
+    function SetValue() {
+        clearControlVal();
+        var node = $('#pmenu_tree').tree('getSelected');	//
+        if (node == null) {
+            $.messager.alert("提示", "暂未有选中的节点!");
+            return false;
+        }
+        $("#pmenuId").val(node.id);
+        $("#pmenuPid").val(node.pid);
+        $("#pmenuName").val(node.text);
+        $("#pmenuMenu_Url").val(node.attributes);
+        $("#pmenuIcon").val(node.iconCls);
+        $("#pmenuSort").val(node.sort);
+        return true;
     }
 
     //清空控件值
