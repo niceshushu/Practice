@@ -43,10 +43,12 @@
     <Compile Include="Bll\BLL_Sys_Author.cs" />
     <Compile Include="Bll\Bll_Sys_Menu.cs" />
     <Compile Include="Bll\Bll_Sys_User.cs" />
+    <Compile Include="DalCommon\Dal_Common.cs" />
     <Compile Include="Dal\DAL_Sys_Author.cs" />
     <Compile Include="Dal\Dal_Sys_Menu.cs" />
     <Compile Include="Dal\Dal_Sys_User.cs" />
     <Compile Include="Model\Mod_Com_Json.cs" />
+    <Compile Include="Model\Mod_Com_Pager.cs" />
     <Compile Include="Model\Mod_Sys_Menu.cs" />
     <Compile Include="Model\Mod_Sys_User.cs" />
     <Compile Include="Model\Mod_Sys_Author.cs" />

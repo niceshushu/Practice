@@ -72,6 +72,7 @@
     <Content Include="Admin\index - 复制1.html" />
     <Content Include="Admin\page\login.html" />
     <Content Include="Admin\page\sys\Sys_Menu.html" />
+    <Content Include="Admin\page\sys\User\Sys_User_List.html" />
     <Content Include="Admin\script\Business\layout.js" />
     <Content Include="Admin\script\Business\login.js" />
     <Content Include="Admin\script\easyui\easyloader.js" />
@@ -533,6 +534,7 @@
     <Content Include="问题记录\开发问题记录.txt" />
     <Content Include="Admin\ashx\sys\Sys_MenuHandler.ashx" />
     <Content Include="Admin\ashx\sys\Easyui_MenuTreeHandler.ashx" />
+    <Content Include="Admin\ashx\sys\Sys_UserHandler.ashx" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -554,6 +556,9 @@
     </Compile>
     <Compile Include="Admin\ashx\sys\Sys_MenuHandler.ashx.cs">
       <DependentUpon>Sys_MenuHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ashx\sys\Sys_UserHandler.ashx.cs">
+      <DependentUpon>Sys_UserHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="Admin\ashx\ValidateCode.ashx.cs">
       <DependentUpon>ValidateCode.ashx</DependentUpon>

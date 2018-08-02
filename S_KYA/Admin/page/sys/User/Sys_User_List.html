@@ -1,0 +1,45 @@
+﻿<div id="PSys_User_List" class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'north',title:'条件过滤',split:true" style="height:71px;width:100%;">
+        <table style="width: 100%; height: 100%; background: #F5F5F5;">
+            <tr>
+                <td> 姓名:<input type="text" id="psys_UserName" name="psys_UserName" /></td>
+                <td style="width:60px;">
+                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true"
+                       onclick="psys_user_searchdata();">搜索</a>
+                </td>
+                <td>
+                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-clear" plain="true"
+                       onclick="psys_user_cleardata();">清空条件</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div data-options="region:'center'" style="padding:5px;background:#eee;">
+        <table id="PSys_User_dg" data-options="fit:true,border:false"></table>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#PSys_User_dg").datagrid({
+            url:"ashx/sys/Sys_UserHandler.ashx?opertype=getList",
+            toolbar: [{
+                text: '编辑',
+                iconCls: 'icon-edit',
+                handler: function () { alert('编辑按钮') }
+            }, '-', {
+                text: '帮助',
+                iconCls: 'icon-help',
+                handler: function () { alert('帮助按钮') }
+                }],
+            frozenColumns:[[{ field: 'ck', checkbox: true }]],
+            columns: [[
+                { field: 'UserName', title: '名称', width: 100 },
+                { field: 'IsDisabled', title: '是否禁用', width: 100 }
+            ]],
+            pagination: true,
+            pageSize: 1,
+            pageList: [1,20, 40, 60, 80, 100],
+        });
+    });
+
+</script>

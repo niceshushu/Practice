@@ -110,7 +110,7 @@ namespace S_KYA.Admin.ashx.sys
             _Sys_Menu.Menu_Url = HttpContext.Current.Request.Form["pmenuMenu_Url"];
             _Sys_Menu.Icon = HttpContext.Current.Request.Form["pmenuIcon"];
             _Sys_Menu.Pid = Convert.ToInt32(HttpContext.Current.Request.Form["pmenuPid"]);
-            _Sys_Menu.Icon = HttpContext.Current.Request.Form["Icon"];
+            _Sys_Menu.Icon = HttpContext.Current.Request.Form["pmenuIcon"];
             _Sys_Menu.Sort =HttpContext.Current.Request.Form["pmenuSort"]==""?0 : Convert.ToInt32(HttpContext.Current.Request.Form["pmenuSort"]);
             if (Operate != "Insert")
             {

@@ -72,11 +72,9 @@ namespace S_KYA_Core.Dal
             }
             else
             {
-
                 return Convert.ToInt32(obj);
 
             }
-
         }
 
 

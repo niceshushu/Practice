@@ -7,6 +7,9 @@ using S_KYA_Core.Dal;
 using S_KYA_Core.Model;
 using S_KYA_Common.Provider;
 using S_KYA_Common;
+using System.Data;
+using System.Collections;
+
 namespace S_KYA_Core.Bll
 {
     public class Bll_Sys_User
@@ -42,6 +45,15 @@ namespace S_KYA_Core.Bll
                 return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// 获得数据列表
+        /// </summary>
+        /// <returns></returns>
+        public DataSet getSysUserList(Hashtable ht, string order = null, Mod_Com_Pager pager=null)
+        {
+            return Dal_Sys_User.Instance.GetList(ht,  order, pager);
         }
     }
 

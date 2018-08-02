@@ -1,4 +1,4 @@
-﻿<div id="cc" class="easyui-layout" style="width:100%;height:100%">
+﻿<div id="cc" class="easyui-layout" data-options="fit:true,border:false">
     <div id="sysmenumain" data-options="region:'west',title:'菜单管理',split:true,tools:'#ttss'" style="width:200px;height:100%">
         <div id="pmenu_accordion" style="width:200px;">
             <ul id="pmenu_tree"></ul>
@@ -75,6 +75,7 @@
                         $("#pmenuMenu_Url").val(node.attributes);
                         $("#pmenuIcon").val(node.iconCls);
                         $("#pmenuSort").val(node.sort);
+                        psmSetReadOnly(false);
                     }
                 });
                 //折叠起来

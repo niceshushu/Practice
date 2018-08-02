@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using S_KYA_Core.Model;
 using System.Data;
 using S_KYA_Common.Data.SqlServer;
+using System.Data.SqlClient;
+using System.Collections;
+
 namespace S_KYA_Core.Dal
 {
     public class Dal_Sys_User
@@ -15,11 +18,36 @@ namespace S_KYA_Core.Dal
         {
             get { return SingletonProvider<Dal_Sys_User>.Instance; }
         }
+
+        /// <summary>
+        /// 获得数据列表
+        /// </summary>
+        public DataSet GetList(Hashtable ht, string order = null, Mod_Com_Pager pager=null)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select * ");
+            strSql.Append(" FROM Sys_User ");
+            strSql.Append(" Where 1=1  ");
+            if (ht != null)
+            {
+                foreach (DictionaryEntry de in ht)
+                {
+                    strSql.AppendLine(de.Value.ToString());
+                }
+            }
+            string strPageSql = string.Empty;
+            if (pager != null)
+            {
+                Dal_Common.GetPageSql(ref strPageSql, strSql.ToString(), order, pager);
+            }
+            return SqlEasy.ExecuteDataSet(strSql.ToString());
+        }
+
         public Mod_Sys_User testGetUser(string UserName)
         {
             try
             {
-                DataTable dt =SqlEasy.ExecuteDataTable(string.Format("SELECT * FROM Sys_User WHERE UserName='{0}'", UserName));
+                DataTable dt = SqlEasy.ExecuteDataTable(string.Format("SELECT * FROM Sys_User WHERE UserName='{0}'", UserName));
                 Mod_Sys_User Sys_User = null;
                 if (dt.Rows.Count == 1)
                 {
@@ -46,6 +74,85 @@ namespace S_KYA_Core.Dal
             catch (Exception)
             {
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// 增加一条数据
+        /// </summary>
+        public int Add(Mod_Sys_User model)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("insert into Sys_User(");
+            strSql.Append("UserName,PassWord,RoleId,PassSalt,IsDisabled");
+            strSql.Append(") values (");
+            strSql.Append("@UserName,@PassWord, @RoleId, @PassSalt, @IsDisabled");
+            strSql.Append(") ");
+            strSql.Append(";select @@IDENTITY");
+            SqlParameter[] parameters = {
+                        new SqlParameter("@UserName", SqlDbType.NVarChar,100) ,
+                        new SqlParameter("@PassWord", SqlDbType.NVarChar,100) ,
+                        new SqlParameter("@RoleId", SqlDbType.Int,8) ,
+                        new SqlParameter("@PassSalt", SqlDbType.VarChar,50) ,
+                        new SqlParameter("@IsDisabled", SqlDbType.Bit,2)
+
+            };
+
+            parameters[0].Value = model.UserName;
+            parameters[1].Value = model.PassWord;
+            parameters[2].Value = model.RoleId;
+            parameters[3].Value = model.PassSalt;
+            parameters[4].Value = model.IsDisabled;
+
+            object obj = SqlEasy.ExecuteNonQuery(strSql.ToString(), parameters);
+            if (obj == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return Convert.ToInt32(obj);
+
+            }
+        }
+
+        /// <summary>
+        /// 更新一条数据
+        /// </summary>
+        public int Update(Mod_Sys_User model)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("Update Sys_User SET");
+            strSql.Append("UserName=@UserName");
+            strSql.Append("PassWord=@PassWord");
+            strSql.Append("RoleId=@RoleId");
+            strSql.Append("PassSalt=@PassSalt");
+            strSql.Append("IsDisabled=@IsDisabled");
+
+            SqlParameter[] parameters = {
+                        new SqlParameter("@UserName", SqlDbType.NVarChar,100) ,
+                        new SqlParameter("@PassWord", SqlDbType.NVarChar,100) ,
+                        new SqlParameter("@RoleId", SqlDbType.Int,8) ,
+                        new SqlParameter("@PassSalt", SqlDbType.VarChar,50) ,
+                        new SqlParameter("@IsDisabled", SqlDbType.Bit,2)
+
+            };
+
+            parameters[0].Value = model.UserName;
+            parameters[1].Value = model.PassWord;
+            parameters[2].Value = model.RoleId;
+            parameters[3].Value = model.PassSalt;
+            parameters[4].Value = model.IsDisabled;
+
+            object obj = SqlEasy.ExecuteNonQuery(strSql.ToString(), parameters);
+            if (obj == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return Convert.ToInt32(obj);
+
             }
         }
     }
