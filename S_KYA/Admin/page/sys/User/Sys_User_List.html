@@ -18,27 +18,44 @@
         <table id="PSys_User_dg" data-options="fit:true,border:false"></table>
     </div>
 </div>
+<div id="editDiv" >
+    <iframe id="editFrame" frameborder="0" src=""   style="width: 99%; height: 98%;"></iframe>
+</div>
 <script type="text/javascript">
     $(function () {
         $("#PSys_User_dg").datagrid({
-            url:"ashx/sys/Sys_UserHandler.ashx?opertype=getList",
+            url: "ashx/sys/Sys_UserHandler.ashx?opertype=getList",
             toolbar: [{
+                id: 'psysUserbtnEdit',
                 text: '编辑',
                 iconCls: 'icon-edit',
-                handler: function () { alert('编辑按钮') }
+                handler: function () {
+                    //先初始化地址
+                    $("#editFrame").attr("src", "/Admin/page/sys/User/Sys_User_Edit.html?t=" + Math.random());
+                    //再弹窗
+                    $('#editDiv').window({
+                        title: "编辑窗口",
+                        width: 600,
+                        height: 400,
+                        modal: true,
+                        minimizable:false,
+                        border: true
+                    });  
+                }
             }, '-', {
+                id: 'psysUserbtnHelp',
                 text: '帮助',
                 iconCls: 'icon-help',
                 handler: function () { alert('帮助按钮') }
-                }],
-            frozenColumns:[[{ field: 'ck', checkbox: true }]],
+            }],
+            frozenColumns: [[{ field: 'ck', checkbox: true }]],
             columns: [[
                 { field: 'UserName', title: '名称', width: 100 },
                 { field: 'IsDisabled', title: '是否禁用', width: 100 }
             ]],
             pagination: true,
             pageSize: 1,
-            pageList: [1,20, 40, 60, 80, 100],
+            pageList: [1, 20, 40, 60, 80, 100]
         });
     });
 

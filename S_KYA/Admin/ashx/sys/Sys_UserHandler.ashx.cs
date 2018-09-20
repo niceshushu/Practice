@@ -63,7 +63,10 @@ namespace S_KYA.Admin.ashx.sys
                 //} 
                 #endregion
             }
-            HttpContext.Current.Response.Write(JSONhelper.ToJson(dt));
+            string result = $"\"total\":\"{pager.RowCount.ToString()}\",\"rows\":{JSONhelper.ToJson(dt)}";
+            result = "{" + result + "}";
+            //string result = $"\"total\": \"{ pager.RowCount.ToString()} \",\"rows\":\"{JSONhelper.ToJson(dt)}\"";
+            HttpContext.Current.Response.Write(result);
         }
 
         public void BindDataToModel(DataTable dt, List<Mod_Sys_User> _Sys_User)

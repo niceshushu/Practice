@@ -72,6 +72,7 @@
     <Content Include="Admin\index - 复制1.html" />
     <Content Include="Admin\page\login.html" />
     <Content Include="Admin\page\sys\Sys_Menu.html" />
+    <Content Include="Admin\page\sys\User\Sys_User_Edit.html" />
     <Content Include="Admin\page\sys\User\Sys_User_List.html" />
     <Content Include="Admin\script\Business\layout.js" />
     <Content Include="Admin\script\Business\login.js" />
@@ -531,6 +532,8 @@
     <Content Include="Admin\ashx\ValidateCode.ashx" />
     <Content Include="Admin\script\easyui\themes\material\images\Thumbs.db" />
     <Content Include="Admin\script\jquery-3.3.1.js" />
+    <Content Include="Img\WebSysImg\favicon.ico" />
+    <Content Include="index.html" />
     <Content Include="问题记录\开发问题记录.txt" />
     <Content Include="Admin\ashx\sys\Sys_MenuHandler.ashx" />
     <Content Include="Admin\ashx\sys\Easyui_MenuTreeHandler.ashx" />
@@ -575,6 +578,7 @@
       <Name>S_KYA_Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

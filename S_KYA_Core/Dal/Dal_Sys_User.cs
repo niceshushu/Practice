@@ -38,9 +38,17 @@ namespace S_KYA_Core.Dal
             string strPageSql = string.Empty;
             if (pager != null)
             {
-                Dal_Common.GetPageSql(ref strPageSql, strSql.ToString(), order, pager);
+                 Dal_Common.GetPageSql(ref strPageSql, strSql.ToString(), order, pager);
             }
-            return SqlEasy.ExecuteDataSet(strSql.ToString());
+            if (!string.IsNullOrEmpty(strPageSql))
+            {
+                return SqlEasy.ExecuteDataSet(strPageSql);
+            }
+            else
+            {
+                return SqlEasy.ExecuteDataSet(strSql.ToString());
+            }
+        
         }
 
         public Mod_Sys_User testGetUser(string UserName)
