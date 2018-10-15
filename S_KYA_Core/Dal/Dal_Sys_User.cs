@@ -79,7 +79,7 @@ namespace S_KYA_Core.Dal
 
             }
 
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }

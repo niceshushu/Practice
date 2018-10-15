@@ -36,27 +36,39 @@ namespace S_KYA.ashx
             }
             else
             {
-                Mod_Sys_User u= S_KYA_Core.Dal.Dal_Sys_User.Instance.testGetUser(username);
-                if(u!=null)
+                try
                 {
-                    if (!u.IsDisabled)
+                    Mod_Sys_User u = S_KYA_Core.Dal.Dal_Sys_User.Instance.testGetUser(username);
+                    if (u != null)
                     {
-                        bool flag = Bll_Sys_User.Instance.UserLogin(username, password, saveCookieDays);
-                        if (flag)
+                        if (!u.IsDisabled)
                         {
-                            msg = new { success = true, message = "ok" };
+                            bool flag = Bll_Sys_User.Instance.UserLogin(username, password, saveCookieDays);
+                            if (flag)
+                            {
+                                msg = new { success = true, message = "ok" };
+                            }
+                            else
+                            {
+                                msg = new { success = false, message = "亲，用户名或密码不正确哦。" };
+                            }
                         }
                         else
                         {
-                            msg = new { success = false, message = "亲，用户名或密码不正确哦。" };
+                            msg = new { success = false, message = "亲，您的帐号已被禁用，请联系管理员吧。" };
                         }
+                        msg = new { success = true, message = "ok" };
                     }
                     else
                     {
-                        msg = new { success = false, message = "亲，您的帐号已被禁用，请联系管理员吧。" };
+                        msg = new { success = false, message = "亲，用户名或密码不正确哦。" };
                     }
                 }
-                msg = new { success = true, message = "ok" };
+                catch (Exception ex)
+                {
+                    msg = new { success = false, message = $"系统错误:【{ex.Message}】请联系开发人员" };
+                }
+            
             }
 
 

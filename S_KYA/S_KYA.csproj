@@ -532,6 +532,9 @@
     <Content Include="Admin\ashx\ValidateCode.ashx" />
     <Content Include="Admin\script\easyui\themes\material\images\Thumbs.db" />
     <Content Include="Admin\script\jquery-3.3.1.js" />
+    <Content Include="CommonPage\ErrPage.aspx" />
+    <Content Include="CommonPage\errPage.html" />
+    <Content Include="Global.asax" />
     <Content Include="Img\WebSysImg\favicon.ico" />
     <Content Include="index.html" />
     <Content Include="问题记录\开发问题记录.txt" />
@@ -565,6 +568,16 @@
     </Compile>
     <Compile Include="Admin\ashx\ValidateCode.ashx.cs">
       <DependentUpon>ValidateCode.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="CommonPage\ErrPage.aspx.cs">
+      <DependentUpon>ErrPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CommonPage\ErrPage.aspx.designer.cs">
+      <DependentUpon>ErrPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
