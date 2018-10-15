@@ -26,9 +26,42 @@ namespace S_KYA.Admin.ashx.sys
                     getUserList();
                     context.Response.End();
                     break;
+                case "add":
+                    AddUser();
+                    context.Response.End();
+                    break;
+                case "edit":
+
                 default:
                     break;
             }
+
+        }
+        private void AddUser()
+        {
+            string PassSalt = StringHelper.RandomString(4);
+            string PassWord = StringHelper.MD5string(HttpContext.Current.Request.Params["psys_user_txtPassWord"] + PassSalt);
+            string UserName = HttpContext.Current.Request.Params["psys_user_txtUserName"];
+            Mod_Sys_User mod_Sys_User = new Mod_Sys_User();
+            mod_Sys_User.PassSalt = PassSalt;
+            mod_Sys_User.PassWord = PassWord;
+            mod_Sys_User.RoleId = -1;
+            mod_Sys_User.UserName = UserName;
+            int result = Bll_Sys_User.Instance.Add(mod_Sys_User);
+            Mod_Com_Json mod_Com_Json = new Mod_Com_Json();
+            if (result == 1)
+            {
+                mod_Com_Json.Data = "";
+                mod_Com_Json.Message = "成功";
+                mod_Com_Json.StatuCode = "200";
+            }
+            else
+            {
+                mod_Com_Json.Data = "";
+                mod_Com_Json.Message = "失败";
+                mod_Com_Json.StatuCode = "-1";
+            }
+            HttpContext.Current.Response.Write(JSONhelper.ToJson(mod_Com_Json));
 
         }
 

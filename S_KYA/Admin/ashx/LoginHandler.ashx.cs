@@ -19,9 +19,9 @@ namespace S_KYA.ashx
         public void ProcessRequest(HttpContext context)
         {
             //初始化密码
-            string pwd= StringHelper.MD5string("111111" + randomString(4));
+            string pwd= StringHelper.MD5string("111111" +StringHelper.RandomString(4));
             //初始化密码
-            string pwdss = StringHelper.MD5string("111111" + randomString(4));
+            string pwdss = StringHelper.MD5string("111111" + StringHelper.RandomString(4));
             context.Response.ContentType = "text/plain";
             var username = context.Request["username"];
             var password = context.Request["password"];
@@ -84,22 +84,7 @@ namespace S_KYA.ashx
             }
         }
 
-        //随机字符串 
-        public string randomString(int length)
-        {
-            string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            int size = length <= 8 ? length : 8;
-            int i = 1;
-            string ret = "";
-            while (i <= size)
-            {
-                int max = chars.Length - 1;
-                int num = new Random().Next(max);
-                ret += chars.Substring(num, 1);
-                i++;
-            }
-            return ret;
-        }
+
     }
 }
 /*

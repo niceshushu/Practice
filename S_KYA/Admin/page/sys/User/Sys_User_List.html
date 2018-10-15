@@ -18,36 +18,39 @@
         <table id="PSys_User_dg" data-options="fit:true,border:false"></table>
     </div>
 </div>
-<div id="editDiv" >
-    <iframe id="editFrame" frameborder="0" src=""   style="width: 99%; height: 98%;"></iframe>
+<div id="editDiv">
+    <!--<iframe id="editFrame" frameborder="0" src="" style="width: 99%; height: 98%;"></iframe>-->
 </div>
 <script type="text/javascript">
     $(function () {
         $("#PSys_User_dg").datagrid({
             url: "ashx/sys/Sys_UserHandler.ashx?opertype=getList",
-            toolbar: [{
-                id: 'psysUserbtnEdit',
-                text: '编辑',
-                iconCls: 'icon-edit',
-                handler: function () {
-                    //先初始化地址
-                    $("#editFrame").attr("src", "/Admin/page/sys/User/Sys_User_Edit.html?t=" + Math.random());
-                    //再弹窗
-                    $('#editDiv').window({
-                        title: "编辑窗口",
-                        width: 600,
-                        height: 400,
-                        modal: true,
-                        minimizable:false,
-                        border: true
-                    });  
+            toolbar: [
+                {
+                    id: 'psysUserbtnAdd',
+                    text: '新增',
+                    iconCls: 'icon-add',
+                    handler: function () {
+                        initEditFrame("add");
+                    }
                 }
-            }, '-', {
-                id: 'psysUserbtnHelp',
-                text: '帮助',
-                iconCls: 'icon-help',
-                handler: function () { alert('帮助按钮') }
-            }],
+                , '-',
+                {
+                    id: 'psysUserbtnEdit',
+                    text: '编辑',
+                    iconCls: 'icon-edit',
+                    handler: function () {
+                        initEditFrame("edit");
+                    }
+                }
+                , '-',
+                {
+                    id: 'psysUserbtnHelp',
+                    text: '帮助',
+                    iconCls: 'icon-help',
+                    handler: function () { alert('帮助按钮') }
+                }
+            ],
             frozenColumns: [[{ field: 'ck', checkbox: true }]],
             columns: [[
                 { field: 'UserName', title: '名称', width: 100 },
@@ -58,5 +61,62 @@
             pageList: [1, 20, 40, 60, 80, 100]
         });
     });
+    //根据操作类型打开窗口
+    function initEditFrame(operatorType) {
+        let row = $('#PSys_User_dg').datagrid('getSelections');
+        let currentWidth = 400;
+        let currentHeight = 200;
+        //选中判断
+        if (operatorType == "edit") {
+            currentWidth = 260;
+            currentHeight = 150;
+            if (row.length != 1) {
+                $.messager.alert('提醒', '没有选中值或者选择了多个');
+                return
+            }
+        }
+        //再弹窗
+        $('#editDiv').dialog({
+            title: "编辑窗口",
+            width: currentWidth,
+            height: currentHeight,
+            modal: true,
+            minimizable: false,
+            border: true,
+            href: 'page/sys/User/Sys_User_Edit.html',
+            //这里一定要记住，区分大小写啊啊啊！！！！！！坑！onLoad
+            onLoad: function () {
+                switch (operatorType) {
+                    case 'add':
+                        $('#psys_user_txtUserName').val('');
+                        $('#psys_user_txtPassWord').val('');
+                        break;
+                    case 'edit':
+                        //赋值
+                        $('#psys_user_txtUserName').val(row[0].UserName);
+                        //不允在此处许修改密码
+                        $('#passwordArea').hide();
+                        break;
+                    default:
+                }
+            },
+            buttons: [{
+                text: '保存',
+                handler: function () {
+                    //ajax提交表单
+                    $.post("ashx/sys/Sys_UserHandler.ashx?opertype=add", $("#Sys_User_Form").serialize(),
+                        function (data) {
+                            console.log(data);
+                        });
+                }
+            }, {
+                text: '关闭',
+                handler: function () {
+                    $('#editDiv').dialog("close");
+                    $("#PSys_User_dg").datagrid('reload');
+                }
+            }]
+        });
 
+    }
 </script>

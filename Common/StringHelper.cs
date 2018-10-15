@@ -750,5 +750,25 @@ namespace S_KYA_Common
         {
             return HttpContext.Current.Request[key];
         }
+        /// <summary>
+        /// 生成指定个随机字符串
+        /// </summary>
+        /// <param name="length">个数</param>
+        /// <returns></returns>
+        public static string RandomString(int length)
+        {
+            string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            int size = length <= 8 ? length : 8;
+            int i = 1;
+            string ret = "";
+            while (i <= size)
+            {
+                int max = chars.Length - 1;
+                int num = new Random().Next(max);
+                ret += chars.Substring(num, 1);
+                i++;
+            }
+            return ret;
+        }
     }
 }

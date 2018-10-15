@@ -55,6 +55,11 @@ namespace S_KYA_Core.Bll
         {
             return Dal_Sys_User.Instance.GetList(ht,  order, pager);
         }
+
+        public int Add(Mod_Sys_User model)
+        {
+            return Dal_Sys_User.Instance.Add(model);
+        }
     }
 
 }
