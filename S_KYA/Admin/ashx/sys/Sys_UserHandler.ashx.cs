@@ -37,11 +37,6 @@ namespace S_KYA.Admin.ashx.sys
             }
 
         }
-        private void UpdateUser()
-        {
-           
-        }
-
         private void AddUser()
         {
             string PassSalt = StringHelper.RandomString(4);
