@@ -31,14 +31,10 @@ namespace S_KYA.Admin.ashx.sys
                     context.Response.End();
                     break;
                 case "edit":
-                    
+
                 default:
                     break;
             }
-
-        }
-        private void EditUser()
-        {
 
         }
         private void AddUser()
