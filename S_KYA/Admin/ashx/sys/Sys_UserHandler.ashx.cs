@@ -39,7 +39,7 @@ namespace S_KYA.Admin.ashx.sys
         }
         private void UpdateUser()
         {
-            string UserName = "";
+            string UserName = HttpContext.Current.Request.Params["psys_user_txtUserName"];
         }
         private void AddUser()
         {
