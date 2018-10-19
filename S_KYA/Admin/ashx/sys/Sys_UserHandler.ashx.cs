@@ -39,7 +39,7 @@ namespace S_KYA.Admin.ashx.sys
         }
         private void UpdateUser()
         {
-
+            string UserName = "";
         }
         private void AddUser()
         {
