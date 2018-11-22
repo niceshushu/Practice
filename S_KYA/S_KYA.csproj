@@ -71,6 +71,7 @@
     <Content Include="Admin\index - 复制2.html" />
     <Content Include="Admin\index - 复制1.html" />
     <Content Include="Admin\page\login.html" />
+    <Content Include="Admin\page\sys\Role\Sys_Role_List.html" />
     <Content Include="Admin\page\sys\Sys_Menu.html" />
     <Content Include="Admin\page\sys\User\Sys_User_Edit.html" />
     <Content Include="Admin\page\sys\User\Sys_User_List.html" />
@@ -541,6 +542,7 @@
     <Content Include="Admin\ashx\sys\Sys_MenuHandler.ashx" />
     <Content Include="Admin\ashx\sys\Easyui_MenuTreeHandler.ashx" />
     <Content Include="Admin\ashx\sys\Sys_UserHandler.ashx" />
+    <Content Include="Admin\ashx\sys\Sys_Role.ashx" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -562,6 +564,9 @@
     </Compile>
     <Compile Include="Admin\ashx\sys\Sys_MenuHandler.ashx.cs">
       <DependentUpon>Sys_MenuHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ashx\sys\Sys_Role.ashx.cs">
+      <DependentUpon>Sys_Role.ashx</DependentUpon>
     </Compile>
     <Compile Include="Admin\ashx\sys\Sys_UserHandler.ashx.cs">
       <DependentUpon>Sys_UserHandler.ashx</DependentUpon>

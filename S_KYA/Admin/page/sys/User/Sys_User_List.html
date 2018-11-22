@@ -106,7 +106,15 @@
                     //ajax提交表单
                     $.post("ashx/sys/Sys_UserHandler.ashx?opertype=add", $("#Sys_User_Form").serialize(),
                         function (data) {
+                            data=JSON.parse(data);
+                            if (data.StatuCode == "200") {
+                                showMsgClose(data.Message,true);
+                            }
+                            else {
+                                showMsgClose(data.Message,false);
+                            }
                             console.log(data);
+                            console.log(data.Message);
                         });
                 }
             }, {
@@ -118,5 +126,16 @@
             }]
         });
 
+    }
+
+    /**
+    * 显示消息
+    */
+    function showMsgClose(message, Refresh) {
+        $.messager.alert('提示',message);
+        $('#editDiv').dialog("close");
+        if (Refresh) {
+            $("#PSys_User_dg").datagrid('reload');
+        }
     }
 </script>

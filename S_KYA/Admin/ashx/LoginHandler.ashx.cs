@@ -57,7 +57,7 @@ namespace S_KYA.ashx
                         {
                             msg = new { success = false, message = "亲，您的帐号已被禁用，请联系管理员吧。" };
                         }
-                        msg = new { success = true, message = "ok" };
+                        msg = new { success = true, message = "ok" };//跳过验证，随便都可以登录
                     }
                     else
                     {
