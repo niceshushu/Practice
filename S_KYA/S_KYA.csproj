@@ -71,6 +71,7 @@
     <Content Include="Admin\index - 复制2.html" />
     <Content Include="Admin\index - 复制1.html" />
     <Content Include="Admin\page\login.html" />
+    <Content Include="Admin\page\sys\Btn\Sys_Btn_Edit.html" />
     <Content Include="Admin\page\sys\Role\Sys_Role_List.html" />
     <Content Include="Admin\page\sys\Sys_Menu.html" />
     <Content Include="Admin\page\sys\User\Sys_User_Edit.html" />
@@ -553,7 +554,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Admin\index.html" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Admin\ashx\LoginHandler.ashx.cs">

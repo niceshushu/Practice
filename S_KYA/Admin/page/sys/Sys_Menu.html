@@ -10,6 +10,7 @@
             <a id="btnUpdate" href="#" class="easyui-linkbutton" onclick="psysMenu_edit();" data-options="iconCls:'icon-edit'">修改</a>
             <a id="btnDelete" href="#" class="easyui-linkbutton" onclick="psysMenu_delete();" data-options="iconCls:'icon-delete'">删除</a>
             <a id="btnSave" href="#" class="easyui-linkbutton" onclick="psysMenu_save();" data-options="iconCls:'icon-save'">保存</a>
+            <a id="btnSetBtn" href="#" class="easyui-linkbutton" onclick="psysMenu_SetBtn();" data-options="iconCls:'icon-save'">设置按钮</a>
         </div>
         <form id="psysmenu" method="post">
             <!--页面操作类型-->
@@ -40,6 +41,9 @@
             </div>
         </form>
     </div>
+    <div id="meunAlertDiv">
+        <!-- 弹框编辑按钮页面 -->
+    </div>
     <div id="ttss">
         <a href="#" class="icon-add" onclick="javascript:alert('add')"></a>
         <a href="#" class="icon-edit" onclick="javascript:alert('edit')"></a>
@@ -67,7 +71,7 @@
                     data: rdata,
                     onClick: function (node) {
                         console.log(node.id);
-                        console.log(node.text + ":" + node.state);
+                        console.log(node.text + ":" + node.state);//节点名称 : 展开状态
                         //$(this).tree(node.state === 'closed' ? 'expand' : 'collapse', node.target);
                         //node.state = node.state === 'closed' ? 'open' : 'closed';
                         $("#pmenuId").val(node.id);
@@ -88,6 +92,98 @@
     $(function () {
         psmAddTree();
     });
+    //设置按钮
+    function psysMenu_SetBtn() {
+        if (psmSetValue()) {
+            //数据可读
+            psmSetReadOnly(false);
+            let node = $('#pmenu_tree').tree('getSelected')
+            console.log(node.pid);
+            if (node.pid === "0") {//判断是否为导航模块
+                $.messager.alert("提示", "导航模块无法设置按钮!");
+            } else {
+
+                //再弹窗
+                $('#meunAlertDiv').dialog({
+                    title: "设置按钮窗口",
+                    width: 700,
+                    height: 500,
+                    modal: true,
+                    minimizable: false,
+                    border: true,
+                    href: 'page/sys/Btn/Sys_Btn_Edit.html',//这里一定是当前主目录路径开始
+                    //这里一定要记住，区分大小写啊啊啊！！！！！！坑！onLoad
+                    onLoad: function () {
+                        //在onLoad中去读取数据，加载到要弹出的页面
+
+                        $("#PSys_Btn_dg").datagrid({
+                            url: "ashx/sys/Sys_UserHandler.ashx?opertype=getList",
+                            toolbar: [
+                                {
+                                    id: 'psysUserbtnAdd',
+                                    text: '新增',
+                                    iconCls: 'icon-add',
+                                    handler: function () {
+                                        initEditFrame("add");
+                                    }
+                                }
+                                , '-',
+                                {
+                                    id: 'psysUserbtnEdit',
+                                    text: '编辑',
+                                    iconCls: 'icon-edit',
+                                    handler: function () {
+                                        initEditFrame("edit");
+                                    }
+                                }
+                                , '-',
+                                {
+                                    id: 'psysUserbtnHelp',
+                                    text: '帮助',
+                                    iconCls: 'icon-help',
+                                    handler: function () { alert('帮助按钮') }
+                                }
+                            ],
+                            frozenColumns: [[{ field: 'ck', checkbox: true }]],
+                            columns: [[
+                                { field: 'UserName', title: '名称', width: 100 },
+                                { field: 'IsDisabled', title: '是否禁用', width: 100 }
+                            ]],
+                            pagination: true,
+                            pageSize: 1,
+                            pageList: [1, 20, 40, 60, 80, 100]
+                        });
+                    },
+                    buttons: [{
+                        text: '保存',
+                        handler: function () {
+                            //ajax提交表单
+                            $.post("ashx/sys/Sys_UserHandler.ashx?opertype=add", $("#Sys_User_Form").serialize(),
+                                function (data) {
+                                    data = JSON.parse(data);
+                                    if (data.StatuCode == "200") {
+                                        showMsgClose(data.Message, true);
+                                    }
+                                    else {
+                                        showMsgClose(data.Message, false);
+                                    }
+                                    console.log(data);
+                                    console.log(data.Message);
+                                });
+                        }
+                    }, {
+                        text: '关闭',
+                        handler: function () {
+                            $('#meunAlertDiv').dialog("close");
+                        }
+                    }]
+                });
+            }
+
+        } else {
+            $.messager.alert("提示", "暂未有选中的菜单!");
+        }
+    }
 
     //保存事件
     function psysMenu_save() {
@@ -156,7 +252,7 @@
                     //调用保存事件
                     psysMenu_save();
                 }
-            });   
+            });
         }
 
     }
