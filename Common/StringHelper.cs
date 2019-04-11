@@ -757,6 +757,11 @@ namespace S_KYA_Common
         /// <returns></returns>
         public static string RandomString(int length)
         {
+            //这里的while生成速度太快了，会直接导致生成的数字一样，
+            //之所以会出现这样的情况是因为C#生成随机数和计算的时间有关系，如果生成太快就会造成这个问题
+            //可加 thread.sleep(100);但是效率低下
+            //可行的加上(guid的hashcode值)new Random(Guid.NewGuid().GetHashCode()).Next(max)
+            //或者 unchecked((int)DateTime.Now.Ticks)//这个好像不靠谱
             string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             int size = length <= 8 ? length : 8;
             int i = 1;
@@ -764,7 +769,7 @@ namespace S_KYA_Common
             while (i <= size)
             {
                 int max = chars.Length - 1;
-                int num = new Random().Next(max);
+                int num = new Random(Guid.NewGuid().GetHashCode()).Next(max);
                 ret += chars.Substring(num, 1);
                 i++;
             }
