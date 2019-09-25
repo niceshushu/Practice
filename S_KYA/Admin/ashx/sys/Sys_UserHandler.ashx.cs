@@ -24,23 +24,41 @@ namespace S_KYA.Admin.ashx.sys
             {
                 case "getList":
                     getUserList();
-                    context.Response.End();
                     break;
                 case "add":
                     AddUser();
-                    context.Response.End();
                     break;
                 case "edit":
-
+                    UpdateUser();
+                    break;
                 default:
                     break;
             }
+            context.Response.End();
 
         }
         private void UpdateUser()
         {
+            Hashtable ht = new Hashtable();
+            string UserId = HttpContext.Current.Request.Params["psys_user_hidUserId"];
             string UserName = HttpContext.Current.Request.Params["psys_user_txtUserName"];
-            string UserNames = "";
+            string IsDisabled = HttpContext.Current.Request.Params["psys_user_chkIsDisabled"]==null?"false":"true";
+            ht.Add("UserId", $" and UserName ='{UserId}'");
+            var TempUser = Bll_Sys_User.Instance.getSysUserList(ht);
+
+            Mod_Com_Json mod_Com_Json = new Mod_Com_Json();
+            if (TempUser.Tables.Count > 0)
+            {
+                //TempUser.
+            }
+            else
+            {
+                mod_Com_Json.Data = "";
+                mod_Com_Json.Message = "失败,用户名重复";
+                mod_Com_Json.StatuCode = "-1";
+            }
+            HttpContext.Current.Response.ContentType = "application/json; charset=utf-8";
+            HttpContext.Current.Response.Write(JSONhelper.ToJson(mod_Com_Json));
         }
         private void AddUser()
         {
@@ -53,7 +71,7 @@ namespace S_KYA.Admin.ashx.sys
             Mod_Com_Json mod_Com_Json = new Mod_Com_Json();
             if (TempUser.Tables.Count > 0)
             {
-                if (TempUser.Tables[0].Rows.Count > 0)
+                if (TempUser.Tables[0].Rows.Count <= 0)
                 {
                     Mod_Sys_User mod_Sys_User = new Mod_Sys_User();
                     mod_Sys_User.PassSalt = PassSalt;
@@ -61,7 +79,7 @@ namespace S_KYA.Admin.ashx.sys
                     mod_Sys_User.RoleId = -1;
                     mod_Sys_User.UserName = UserName;
                     int result = Bll_Sys_User.Instance.Add(mod_Sys_User);
-                 
+
                     if (result == 1)
                     {
                         mod_Com_Json.Data = "";
@@ -75,6 +93,7 @@ namespace S_KYA.Admin.ashx.sys
                         mod_Com_Json.StatuCode = "-1";
                     }
                 }
+                else
                 {
                     mod_Com_Json.Data = "";
                     mod_Com_Json.Message = "失败,用户名重复";

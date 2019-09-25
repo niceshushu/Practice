@@ -6,6 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using S_KYA_Core.Dal;
 using S_KYA_Core.Model;
+using System.Collections;
+using System.Data;
+
 namespace S_KYA_Core.Bll
 {
     public class Bll_Sys_Role
@@ -15,7 +18,14 @@ namespace S_KYA_Core.Bll
             get { return SingletonProvider<Bll_Sys_Role>.Instance; }
         }
 
-
+        /// <summary>
+        /// 获得数据列表
+        /// </summary>
+        /// <returns></returns>
+        public DataSet getSysRoleList(Hashtable ht, string order = null, Mod_Com_Pager pager = null)
+        {
+           return Dal_Sys_Role.Instance.GetList(ht, order, pager);
+        }
         public bool Exists(int RoleId)
         {
             return Dal_Sys_Role.Instance.Exists(RoleId);

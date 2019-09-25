@@ -1,10 +1,15 @@
 ﻿<div>
     <form id="Sys_User_Form">
+        <input type="hidden"  id="psys_user_hidUserId" name="psys_user_hidUserId"/>
         <table>
             <tr>
                 <td>
                     <label>姓名:</label>
                     <input type="text" id="psys_user_txtUserName" name="psys_user_txtUserName" />
+                </td>
+                <td>
+                    <label>禁用:</label>
+                    <input type="checkbox" id="psys_user_chkIsDisabled" name="psys_user_chkIsDisabled" />
                 </td>
             </tr>
             <tr id="passwordArea">
@@ -26,5 +31,18 @@
         //    alert(window.location.href);
 
         //}
-
+    //$.fn.serializeEx = function () {
+    //    var a = this.serializeArray();
+    //    var $radio = $('input[type=radio],input[type=checkbox]', this);
+    //    var temp = {};
+    //    $.each($radio, function () {
+    //        if (!temp.hasOwnProperty(this.name)) {
+    //            if ($("input[name='" + this.name + "']:checked").length == 0) {
+    //                temp[this.name] = "";
+    //                a.push({ name: this.name, value: 0 });
+    //            }
+    //        }
+    //    });
+    //    return jQuery.param(a);
+    //};
 </script>

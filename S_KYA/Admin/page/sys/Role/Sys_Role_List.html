@@ -14,24 +14,120 @@
             </tr>
         </table>
     </div>
+
     <div data-options="region:'center'" style="padding:5px;background:#eee;">
         <table id="PSys_Role_dg" data-options="fit:true,border:false"></table>
     </div>
+    <!--工具栏-->
     <div id="tb">
-        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true"/a>
-        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-help',plain:true"/a>
+        <a id="roleList_btnInsert" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true, text: '新增'"></a>
+        <a id="roleList_btnEdit" href="#" class="easyui-linkbutton"></a>
+        <a id="roleList_btnDel" href="#" class="easyui-linkbutton"></a>
     </div>
-
 </div>
 <div id="Sys_RoleEditDiv">
     <!--<iframe id="editFrame" frameborder="0" src="" style="width: 99%; height: 98%;"></iframe>-->
 </div>
+
 <script type="text/javascript">
-    $(function () {
-        $('#PSys_Role_dg').datagrid({
-            url: "",
-            toolbar: '#tb',
-            pagination: true
-        });
+
+    $('#roleList_btnInsert').bind('click', function () {
+        initEditFrame("add");
     });
+    $('#roleList_btnEdit').linkbutton({ iconCls: 'icon-edit', text: '编辑', plain: true });
+    $('#roleList_btnEdit').bind('click', function () {
+        initEditFrame("edit");
+    });
+    $('#roleList_btnDel').linkbutton({ iconCls: 'icon-delete', text: '删除', plain: true });
+    $('#roleList_btnDel').bind('click', function () {
+        alert('easyui333');
+
+    });
+
+    $('#PSys_Role_dg').datagrid({
+        url: "ashx/sys/Sys_Role.ashx?opertype=getList",
+        toolbar: '#tb',
+
+        frozenColumns: [[{ field: 'ck', checkbox: true }]],
+        columns: [[
+            { field: 'RoleID', title: 'ID', width: 100 },
+            { field: 'RoleName', title: '角色名', width: 100, align: 'right' }
+        ]],
+        pagination: true,
+        pageSize: 1,
+        pageList: [1, 20, 40, 60, 80, 100]
+    });
+
+    //根据操作类型打开窗口
+    function initEditFrame(operatorType) {
+        let haveChange = false;
+
+        let row = $('#PSys_Role_dg').datagrid('getSelections');
+        let currentWidth = 400;
+        let currentHeight = 200;
+        //选中判断
+        if (operatorType == "edit") {
+            currentWidth = 400;
+            currentHeight = 200;
+            if (row.length != 1) {
+                $.messager.alert('提醒', '没有选中值或者选择了多个');
+                return
+            }
+        }
+        //再弹窗
+        $('#Sys_RoleEditDiv').dialog({
+            title: "编辑窗口",
+            width: currentWidth,
+            height: currentHeight,
+            modal: true,
+            minimizable: false,
+            border: true,
+            href: 'page/sys/Role/Sys_Role_Edit.html',
+            //这里一定要记住，区分大小写啊啊啊！！！！！！坑！onLoad
+            onLoad: function () {
+                switch (operatorType) {
+                    case 'add':
+                        $('#psys_role_txtRoleId').val('自动');
+                        $("#psys_role_txtRoleId").attr("disabled", "disabled");
+                        $('#psys_user_txtRoleName').val('');
+                        break;
+                    case 'edit':
+                        //赋值
+                        $('#psys_role_txtRoleId').val(row[0].RoleID);
+                        $("#psys_role_txtRoleId").attr("disabled", "disabled");
+                        //不允在此处许修改密码
+                        $('#psys_user_txtRoleName').val(row[0].RoleName);
+                        break;
+                    default:
+                }
+            },
+            buttons: [{
+                text: '保存',
+                handler: function () {
+                    //ajax提交表单
+                    $.post("ashx/sys/Sys_Role.ashx?opertype=add", $("#Sys_Role_Form").serialize(),
+                        function (data) {
+                            if (data.StatuCode == "200") {
+                                showMsgClose(data.Message, true);
+                                haveChange = true;
+                            }
+                            else {
+                                showMsgClose(data.Message, false);
+                            }
+                            console.log(data);
+                            console.log(data.Message);
+                        });
+                }
+            }, {
+                text: '关闭',
+                handler: function () {
+                    $('#Sys_RoleEditDiv').dialog("close");
+                    if (haveChange) {
+                        $("#PSys_Role_dg").datagrid('reload');
+                    }
+                }
+            }]
+        });
+
+    }
 </script>

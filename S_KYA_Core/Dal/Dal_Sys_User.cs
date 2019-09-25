@@ -22,8 +22,10 @@ namespace S_KYA_Core.Dal
         /// <summary>
         /// 获得数据列表
         /// </summary>
-        public DataSet GetList(Hashtable ht, string order = null, Mod_Com_Pager pager=null)
+        public List<Mod_Sys_User> GetList(Hashtable ht, string order, Mod_Com_Pager pager = null)
         {
+            DataSet dataSet = null;
+            List<Mod_Sys_User> li_Sys_User = new List<Mod_Sys_User>();
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select * ");
             strSql.Append(" FROM Sys_User ");
@@ -38,17 +40,21 @@ namespace S_KYA_Core.Dal
             string strPageSql = string.Empty;
             if (pager != null)
             {
-                 Dal_Common.GetPageSql(ref strPageSql, strSql.ToString(), order, pager);
+                Dal_Common.GetPageSql(ref strPageSql, strSql.ToString(), order, pager);
             }
             if (!string.IsNullOrEmpty(strPageSql))
             {
-                return SqlEasy.ExecuteDataSet(strPageSql);
+                dataSet = SqlEasy.ExecuteDataSet(strPageSql);
+               return ConvertToListData(dataSet);
+                //return dataSet;
             }
             else
             {
-                return SqlEasy.ExecuteDataSet(strSql.ToString());
+                dataSet = SqlEasy.ExecuteDataSet(strSql.ToString());
+                return ConvertToListData(dataSet);
+                //return dataSet;
             }
-        
+
         }
 
         public Mod_Sys_User testGetUser(string UserName)
@@ -162,6 +168,35 @@ namespace S_KYA_Core.Dal
                 return Convert.ToInt32(obj);
 
             }
+        }
+
+        private List<Mod_Sys_User> ConvertToListData(DataSet dataSet)
+        {
+            if (dataSet == null)
+            {
+                return null;
+            }
+            if (dataSet.Tables[0].Rows.Count > 0)
+            {
+                List<Mod_Sys_User> tmpLiSys_User = new List<Mod_Sys_User>();
+                for (int i = 0; i < dataSet.Tables[0].Rows.Count; i++)
+                {
+                    Mod_Sys_User sys_User = new Mod_Sys_User();
+                    sys_User.IsDisabled = dataSet.Tables[0].Rows[i]["IsDisabled"].ToString() == "0" ? false : true;
+                    sys_User.PassSalt = dataSet.Tables[0].Rows[i]["PassSalt"].ToString();
+                    sys_User.PassWord = dataSet.Tables[0].Rows[i]["PassWord"].ToString();
+                    sys_User.RoleId = Convert.ToInt32(dataSet.Tables[0].Rows[i]["RoleId"].ToString() == "" ? "-1" : dataSet.Tables[0].Rows[i]["RoleId"].ToString());
+                    sys_User.UserId = Convert.ToInt32(dataSet.Tables[0].Rows[i]["UserId"].ToString());
+                    sys_User.UserName = dataSet.Tables[0].Rows[i]["UserName"].ToString();
+                    tmpLiSys_User.Add(sys_User);
+                }
+                return tmpLiSys_User;
+            }
+            else
+            {
+                return null;
+            }
+
         }
     }
 }

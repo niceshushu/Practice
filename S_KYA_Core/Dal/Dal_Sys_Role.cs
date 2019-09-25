@@ -2,6 +2,7 @@
 using S_KYA_Common.Provider;
 using S_KYA_Core.Model;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -117,5 +118,38 @@ namespace S_KYA_Core.Dal
                 return false;
             }
         }
+
+        /// <summary>
+        /// 获得数据列表
+        /// </summary>
+        public DataSet GetList(Hashtable ht, string order = null, Mod_Com_Pager pager = null)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select * ");
+            strSql.Append(" FROM Sys_Role ");
+            strSql.Append(" Where 1=1  ");
+            if (ht != null)
+            {
+                foreach (DictionaryEntry de in ht)
+                {
+                    strSql.AppendLine(de.Value.ToString());
+                }
+            }
+            string strPageSql = string.Empty;
+            if (pager != null)
+            {
+                Dal_Common.GetPageSql(ref strPageSql, strSql.ToString(), order, pager);
+            }
+            if (!string.IsNullOrEmpty(strPageSql))
+            {
+                return SqlEasy.ExecuteDataSet(strPageSql);
+            }
+            else
+            {
+                return SqlEasy.ExecuteDataSet(strSql.ToString());
+            }
+
+        }
+
     }
 }

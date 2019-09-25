@@ -72,6 +72,7 @@
     <Content Include="Admin\index - 复制1.html" />
     <Content Include="Admin\page\login.html" />
     <Content Include="Admin\page\sys\Btn\Sys_Btn_Edit.html" />
+    <Content Include="Admin\page\sys\Role\Sys_Role_Edit.html" />
     <Content Include="Admin\page\sys\Role\Sys_Role_List.html" />
     <Content Include="Admin\page\sys\Sys_Menu.html" />
     <Content Include="Admin\page\sys\User\Sys_User_Edit.html" />

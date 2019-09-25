@@ -60,6 +60,11 @@ namespace S_KYA_Core.Bll
         {
             return Dal_Sys_User.Instance.Add(model);
         }
+
+        public int Update(Mod_Sys_User model)
+        {
+            return Dal_Sys_User.Instance.Update(model);
+        }
     }
 
 }

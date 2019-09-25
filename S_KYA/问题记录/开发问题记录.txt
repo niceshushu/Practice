@@ -20,3 +20,18 @@ jq 1.9 以上版本，废除了 live，用$.on()代替
 <div data-options="region:'north',border:false" style="height:60px;background:#B3DFDA;">
 6 使用easyuiTree控件前面有个三角符号是怎么出现的，只需要有子项目的设置就好了
 那就是去掉status这个\"state\":\"closed\", 在拼json的时候这个就要去掉
+7
+问题:在$(function(){})中调用bind('click',function(){})时候会触发两次事件
+答案:  
+如果是嵌套绑定的，用event.stoppropagation()或者return false；可以解决。  stoppropagation还得小写?????
+	event.stopPropagation() 该方法将停止事件的传播，阻止它被分派到其他 Document 节点。
+	在事件传播的任何阶段都可以调用它。
+	注意，虽然该方法不能阻止同一个 Document 节点上的其他事件句柄被调用，
+	但是它可以阻止把事件分派到其他节点。
+	【定义和用法
+	不再派发事件。
+	终止事件在传播过程的捕获、目标处理或起泡阶段进一步传播。调用该方法后，该节点上处理该事件的处理程序将被调用，事件不再被分派到其他节点。
+	】
+但是由于不是嵌套的。可以在绑定之前先取消这个点击绑定事件。
+	例如：$(".queryLogistics").off("click").on("click", function(){});
+建议做法，直接写在对用的html元素中
