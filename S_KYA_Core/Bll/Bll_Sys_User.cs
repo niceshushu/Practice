@@ -51,7 +51,7 @@ namespace S_KYA_Core.Bll
         /// 获得数据列表
         /// </summary>
         /// <returns></returns>
-        public DataSet getSysUserList(Hashtable ht, string order = null, Mod_Com_Pager pager=null)
+        public List<Mod_Sys_User> getSysUserList(Hashtable ht, string order = null, Mod_Com_Pager pager=null)
         {
             return Dal_Sys_User.Instance.GetList(ht,  order, pager);
         }

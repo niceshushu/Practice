@@ -47,7 +47,7 @@ namespace S_KYA.Admin.ashx.sys
             var TempUser = Bll_Sys_User.Instance.getSysUserList(ht);
 
             Mod_Com_Json mod_Com_Json = new Mod_Com_Json();
-            if (TempUser.Tables.Count > 0)
+            if (TempUser.Count > 0)
             {
                 //TempUser.
             }
@@ -69,9 +69,9 @@ namespace S_KYA.Admin.ashx.sys
             ht.Add("UserName", $" and UserName ='{UserName}'");
             var TempUser = Bll_Sys_User.Instance.getSysUserList(ht);
             Mod_Com_Json mod_Com_Json = new Mod_Com_Json();
-            if (TempUser.Tables.Count > 0)
+            if (TempUser.Count > 0)
             {
-                if (TempUser.Tables[0].Rows.Count <= 0)
+                if (TempUser.Count <= 0)
                 {
                     Mod_Sys_User mod_Sys_User = new Mod_Sys_User();
                     mod_Sys_User.PassSalt = PassSalt;
@@ -118,31 +118,10 @@ namespace S_KYA.Admin.ashx.sys
             Mod_Com_Pager pager = new Mod_Com_Pager(pagesize, pageindex);
 
             Hashtable ht = new Hashtable();
-            DataSet ds = Bll_Sys_User.Instance.getSysUserList(ht, "UserId", pager);
+            var li_sys_Users = Bll_Sys_User.Instance.getSysUserList(ht, "UserId", pager);
             DataTable dt = null;
             List<Mod_Sys_User> _Sys_User = new List<Mod_Sys_User>();
-            if (ds != null && ds.Tables.Count > 0)
-            {
-                dt = ds.Tables[0];
-                #region 没用
-                //for (int i = 0; i < dt.Rows.Count; i++)
-                //{
-                //    Mod_Sys_User _User = new Mod_Sys_User();
-                //    _User.UserId = Convert.ToInt32(dt.Rows[i]["UserId"]);
-                //    _User.UserName = dt.Rows[i]["UserName"].ToString();
-                //    if (dt.Rows[i]["RoleId"] != DBNull.Value)
-                //    {
-                //        _User.RoleId = Convert.ToInt32(dt.Rows[i]["RoleId"]);
-                //    }
-                //    if (dt.Rows[i]["IsDisabled"] != DBNull.Value)
-                //    {
-                //        _User.IsDisabled = Convert.ToBoolean(dt.Rows[i]["IsDisabled"]);
-                //    }
-                //    _Sys_User.Add(_User);
-                //} 
-                #endregion
-            }
-            string result = $"\"total\":\"{pager.RowCount.ToString()}\",\"rows\":{JSONhelper.ToJson(dt)}";
+            string result = $"\"total\":\"{pager.RowCount.ToString()}\",\"rows\":{JSONhelper.ToJson(li_sys_Users)}";
             result = "{" + result + "}";
             //string result = $"\"total\": \"{ pager.RowCount.ToString()} \",\"rows\":\"{JSONhelper.ToJson(dt)}\"";
             HttpContext.Current.Response.Write(result);
