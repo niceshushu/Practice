@@ -545,6 +545,7 @@
     <Content Include="Admin\ashx\sys\Easyui_MenuTreeHandler.ashx" />
     <Content Include="Admin\ashx\sys\Sys_UserHandler.ashx" />
     <Content Include="Admin\ashx\sys\Sys_Role.ashx" />
+    <Content Include="Admin\ashx\sys\Sys_BtnHandler.ashx" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -565,6 +566,9 @@
     </Compile>
     <Compile Include="Admin\ashx\sys\Easyui_MenuTreeHandler.ashx.cs">
       <DependentUpon>Easyui_MenuTreeHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ashx\sys\Sys_BtnHandler.ashx.cs">
+      <DependentUpon>Sys_BtnHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="Admin\ashx\sys\Sys_MenuHandler.ashx.cs">
       <DependentUpon>Sys_MenuHandler.ashx</DependentUpon>
@@ -600,7 +604,9 @@
       <Name>S_KYA_Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Code\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
