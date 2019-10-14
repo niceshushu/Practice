@@ -15,13 +15,15 @@ namespace S_KYA.Admin.ashx.sys
     /// <summary>
     /// Easyui_MenuTreeHandler 的摘要说明
     /// </summary>
-    public class Easyui_MenuTreeHandler :  KA_BasePage
+    public class Easyui_MenuTreeHandler : KA_BasePage
     {
         public override void ProcessRequest(HttpContext context)
         {
             context.Response.ContentType = "text/plain";
             string pid = context.Request["pid"];
             string floor = context.Request["floor"];
+            string isManager = context.Request["isManager"];
+            bool isManagerMenu = false;//是否是管理菜单进来
             if (floor != null && floor.Length > 0)
             {
                 switch (floor)
@@ -30,7 +32,11 @@ namespace S_KYA.Admin.ashx.sys
                         context.Response.Write(JSONhelper.ToJson(getData(pid)));
                         break;
                     case "all"://获取这一层及其以下所有层
-                        context.Response.Write(getaddData(pid));
+                        if (!string.IsNullOrEmpty(isManager))
+                        {
+                            isManagerMenu = true;
+                        }
+                        context.Response.Write(getaddData(pid, isManagerMenu));
                         break;
                     default:
                         break;
@@ -39,16 +45,27 @@ namespace S_KYA.Admin.ashx.sys
             }
             context.Response.End();
         }
-        public string getaddData(string id)
+        public string getaddData(string id, bool isManager = false)
         {
             //根据id查pid
             List<Mod_Sys_Menu> li_Sys_Menu = (from m in kBuffer._Table_Sys_Menu where m.Pid.ToString() == id select m).ToList();//Bll_Sys_Menu.Instance.GetList(ht);
+
+            //需要根据权限来啊
+
             StringBuilder sb = new StringBuilder();
             sb.Append("[");
             if (li_Sys_Menu != null)
             {
+
                 for (int i = 0; i < li_Sys_Menu.Count; i++)
                 {
+                    if (!isManager)
+                    {
+                        if (!CheckRights(li_Sys_Menu[i].MenuId.ToString()))
+                        {
+                            continue;
+                        }
+                    }
                     sb.Append("{");
                     sb.Append($"\"id\":{li_Sys_Menu[i].MenuId},\"text\":\"{li_Sys_Menu[i].MenuName}\",\"iconCls\":\"{li_Sys_Menu[i].Icon}\"");
                     sb.Append($",\"attributes\":\"{li_Sys_Menu[i].Menu_Url}\"");
@@ -91,10 +108,23 @@ namespace S_KYA.Admin.ashx.sys
         public List<Mod_Sys_Menu> getData(string pid)
         {
             var aa = Sys_User;
-            Hashtable ht = new Hashtable();
-            ht.Add("Pid", $" AND Pid='{pid}'");
-            List<Mod_Sys_Menu> Li_Sys_Menus = Bll_Sys_Menu.Instance.GetList(ht);
-            return Li_Sys_Menus;
+            //Hashtable ht = new Hashtable();
+            //ht.Add("Pid", $" AND Pid='{pid}'");
+            List<Mod_Sys_Menu> Li_Sys_Menus = (from m in kBuffer._Table_Sys_Menu where m.Pid.ToString() == pid select m).ToList();//Bll_Sys_Menu.Instance.GetList(ht);
+
+            List<Mod_Sys_Menu> currentMeuns = new List<Mod_Sys_Menu>();
+            for (int i = 0; i < Li_Sys_Menus.Count; i++)
+            {
+                if (!CheckRights(Li_Sys_Menus[i].MenuId.ToString()))
+                {
+                    continue;
+                }
+                else
+                {
+                    currentMeuns.Add(Li_Sys_Menus[i]);
+                }
+            }
+            return currentMeuns;
         }
 
         public void AddMenuChild()
@@ -102,14 +132,43 @@ namespace S_KYA.Admin.ashx.sys
 
         }
 
-        public bool IsReusable
+        public new bool IsReusable
         {
             get
             {
                 return false;
             }
         }
+
+        /// <summary>
+        /// 检测权限
+        /// </summary>
+        /// <param name="Mid"></param>
+        /// <returns></returns>
+        private bool CheckRights(string Mid)
+        {
+            bool hasRight = false;
+            //if (base.IsAdmin)
+            //{
+            //    return true;
+            //}
+
+            hasRight = false;
+            //base.OperatorGroupIDs.Contains(p.Group_ID) && 
+            List<Mod_Sys_Author> srg = (from p in kBuffer._Table_Sys_Author
+                                        where p.ResourceId.ToString() == Mid && p.RoleId == base.Sys_User.RoleId
+                                        orderby p.ResourceId, p.RoleId
+                                        select p).ToList();
+            if (srg != null && srg.Count > 0)
+            {
+                hasRight = true;
+            }
+
+            return hasRight;
+        }
     }
+
+
 
     public class SysModuleNavModel
     {

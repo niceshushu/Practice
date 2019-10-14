@@ -70,6 +70,7 @@ namespace S_KYA_Core.Dal
                     Sys_User.PassWord = dt.Rows[0]["PassWord"].ToString();
                     Sys_User.UserName = dt.Rows[0]["UserName"].ToString();
                     Sys_User.RoleId = Convert.ToInt32(dt.Rows[0]["RoleId"]);
+                    Sys_User.PassSalt= dt.Rows[0]["PassSalt"].ToString();
                     if (dt.Rows[0]["IsDisabled"] == DBNull.Value)
                     {
                         Sys_User.IsDisabled = false;

@@ -19,7 +19,8 @@ namespace S_KYA.ashx
         public override void ProcessRequest(HttpContext context)
         {
             //初始化密码
-            string pwd= StringHelper.MD5string("111111" +StringHelper.RandomString(4));
+            string passalt = StringHelper.RandomString(4);
+            string pwd= StringHelper.MD5string("111111" + passalt);
             //初始化密码
             string pwdss = StringHelper.MD5string("111111" + StringHelper.RandomString(4));
             context.Response.ContentType = "text/plain";
@@ -47,6 +48,7 @@ namespace S_KYA.ashx
                             if (flag)
                             {
                                 msg = new { success = true, message = "ok" };
+                                Sys_User = u;
                             }
                             else
                             {
@@ -57,8 +59,8 @@ namespace S_KYA.ashx
                         {
                             msg = new { success = false, message = "亲，您的帐号已被禁用，请联系管理员吧。" };
                         }
-                        Sys_User = u;
-                        msg = new { success = true, message = "ok" };//跳过验证，随便都可以登录
+
+                        //msg = new { success = true, message = "ok" };//跳过验证，随便都可以登录
                     }
                     else
                     {

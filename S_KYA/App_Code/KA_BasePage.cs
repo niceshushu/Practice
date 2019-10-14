@@ -5,7 +5,7 @@ using System.Web;
 using S_KYA_Core.Model;
 using System.Web.SessionState;
 
-public abstract class KA_BasePage : IHttpHandler, IRequiresSessionState
+public abstract  class KA_BasePage : IHttpHandler, IRequiresSessionState
 {
 
     private Mod_Sys_User _Sys_User = null;
