@@ -9,15 +9,15 @@ using S_KYA_Core.Model;
 using S_KYA_Common;
 using System.Text;
 
+
 namespace S_KYA.Admin.ashx.sys
 {
     /// <summary>
     /// Easyui_MenuTreeHandler 的摘要说明
     /// </summary>
-    public class Easyui_MenuTreeHandler : IHttpHandler
+    public class Easyui_MenuTreeHandler :  KA_BasePage
     {
-
-        public void ProcessRequest(HttpContext context)
+        public override void ProcessRequest(HttpContext context)
         {
             context.Response.ContentType = "text/plain";
             string pid = context.Request["pid"];
@@ -27,10 +27,7 @@ namespace S_KYA.Admin.ashx.sys
                 switch (floor)
                 {
                     case "one"://获取第一层的菜单
-                        List<Mod_Sys_Menu> Listmenu = new List<Mod_Sys_Menu>();
-                        DataTable dt = getData(pid);
-                        BindDataToModel(dt, Listmenu);
-                        context.Response.Write(JSONhelper.ToJson(Listmenu));
+                        context.Response.Write(JSONhelper.ToJson(getData(pid)));
                         break;
                     case "all"://获取这一层及其以下所有层
                         context.Response.Write(getaddData(pid));
@@ -40,33 +37,34 @@ namespace S_KYA.Admin.ashx.sys
                 }
 
             }
-
+            context.Response.End();
         }
         public string getaddData(string id)
         {
             //根据id查pid
-            Hashtable ht = new Hashtable();
-            ht.Add("Pid", $" AND Pid='{id}'");
-            DataTable dt = Bll_Sys_Menu.Instance.GetList(ht).Tables[0];
+            List<Mod_Sys_Menu> li_Sys_Menu = (from m in kBuffer._Table_Sys_Menu where m.Pid.ToString() == id select m).ToList();//Bll_Sys_Menu.Instance.GetList(ht);
             StringBuilder sb = new StringBuilder();
             sb.Append("[");
-            for (int i = 0; i < dt.Rows.Count; i++)
+            if (li_Sys_Menu != null)
             {
-                sb.Append("{");
-                sb.Append($"\"id\":{dt.Rows[i]["MenuId"]},\"text\":\"{dt.Rows[i]["MenuName"]}\",\"iconCls\":\"{dt.Rows[i]["Icon"]}\"");
-                sb.Append($",\"attributes\":\"{dt.Rows[i]["Menu_Url"]}\"");
-                sb.Append($",\"sort\":\"{dt.Rows[i]["Sort"]}\"");
-                sb.Append($",\"pid\":\"{dt.Rows[i]["Pid"]}\"");
+                for (int i = 0; i < li_Sys_Menu.Count; i++)
+                {
+                    sb.Append("{");
+                    sb.Append($"\"id\":{li_Sys_Menu[i].MenuId},\"text\":\"{li_Sys_Menu[i].MenuName}\",\"iconCls\":\"{li_Sys_Menu[i].Icon}\"");
+                    sb.Append($",\"attributes\":\"{li_Sys_Menu[i].Menu_Url}\"");
+                    sb.Append($",\"sort\":\"{li_Sys_Menu[i].Sort}\"");
+                    sb.Append($",\"pid\":\"{li_Sys_Menu[i].Pid}\"");
 
-                sb.Append(",\"children\":");
-                sb.Append(getaddData(dt.Rows[i]["MenuId"].ToString()));
-                if (i == dt.Rows.Count - 1)
-                {
-                    sb.Append("}");
-                }
-                else
-                {
-                    sb.Append("},");
+                    sb.Append(",\"children\":");
+                    sb.Append(getaddData(li_Sys_Menu[i].MenuId.ToString()));
+                    if (i == li_Sys_Menu.Count - 1)
+                    {
+                        sb.Append("}");
+                    }
+                    else
+                    {
+                        sb.Append("},");
+                    }
                 }
             }
             sb.Append("]");
@@ -75,9 +73,10 @@ namespace S_KYA.Admin.ashx.sys
 
 
 
-        public void BindDataToModel(DataTable dt, List<Mod_Sys_Menu> _Sys_Menu)
+        public void BindDataToModel(DataTable dt, List<Mod_Sys_Menu> Origin_Sys_Menu)
         {
-            for (int i = 0; i < dt.Rows.Count; i++)
+            List<Mod_Sys_Menu> _Sys_Menu = new List<Mod_Sys_Menu>();
+            for (int i = 0; i < Origin_Sys_Menu.Count; i++)
             {
                 Mod_Sys_Menu menuNavModel = new Mod_Sys_Menu();
                 menuNavModel.MenuName = dt.Rows[i]["MenuName"].ToString();
@@ -89,12 +88,13 @@ namespace S_KYA.Admin.ashx.sys
             }
         }
 
-        public DataTable getData(string pid)
+        public List<Mod_Sys_Menu> getData(string pid)
         {
+            var aa = Sys_User;
             Hashtable ht = new Hashtable();
             ht.Add("Pid", $" AND Pid='{pid}'");
-            DataTable dt = Bll_Sys_Menu.Instance.GetList(ht).Tables[0];
-            return dt;
+            List<Mod_Sys_Menu> Li_Sys_Menus = Bll_Sys_Menu.Instance.GetList(ht);
+            return Li_Sys_Menus;
         }
 
         public void AddMenuChild()

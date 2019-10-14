@@ -73,7 +73,7 @@ namespace S_KYA_Core.Bll
         /// <summary>
         /// 获得数据列表
         /// </summary>
-        public DataSet GetList(Hashtable ht)
+        public List<Mod_Sys_Menu> GetList(Hashtable ht)
         {
             return Dal_Sys_Menu.Instance.GetList(ht);
         }

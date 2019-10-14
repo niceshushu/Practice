@@ -216,7 +216,7 @@ namespace S_KYA_Core.Dal
         /// <summary>
         /// 获得数据列表
         /// </summary>
-        public DataSet GetList(Hashtable ht)
+        public List<Mod_Sys_Menu> GetList(Hashtable ht)
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select * ");
@@ -229,7 +229,7 @@ namespace S_KYA_Core.Dal
                     strSql.AppendLine(de.Value.ToString());
                 }
             }
-            return SqlEasy.ExecuteDataSet(strSql.ToString());
+            return BindDataToModel(SqlEasy.ExecuteDataSet(strSql.ToString()));
         }
 
         /// <summary>
@@ -253,7 +253,34 @@ namespace S_KYA_Core.Dal
             return SqlEasy.ExecuteDataSet(strSql.ToString());
         }
 
-
+        public List<Mod_Sys_Menu> BindDataToModel(DataSet dataSet)
+        {
+            if (dataSet == null)
+            {
+                return null;
+            }
+            if (dataSet.Tables[0].Rows.Count <= 0)
+            {
+                return null;
+            }
+            List<Mod_Sys_Menu> _Sys_Menu = new List<Mod_Sys_Menu>();
+            for (int i = 0; i < dataSet.Tables[0].Rows.Count; i++)
+            {
+                Mod_Sys_Menu menuNavModel = new Mod_Sys_Menu();
+                menuNavModel.MenuName = dataSet.Tables[0].Rows[i]["MenuName"].ToString();
+                menuNavModel.Menu_Url = dataSet.Tables[0].Rows[i]["Menu_Url"].ToString();
+                menuNavModel.Icon = dataSet.Tables[0].Rows[i]["Icon"].ToString();
+                menuNavModel.Pid = Convert.ToInt32(dataSet.Tables[0].Rows[i]["Pid"]);
+                menuNavModel.MenuId = Convert.ToInt32(dataSet.Tables[0].Rows[i]["MenuId"]);
+                menuNavModel.Sort = Convert.ToInt32(dataSet.Tables[0].Rows[i]["Sort"].ToString()==""? "0" : dataSet.Tables[0].Rows[i]["Sort"]);
+                _Sys_Menu.Add(menuNavModel);
+            }
+            if (_Sys_Menu.Count <= 0)
+            {
+                return null;
+            }
+            return _Sys_Menu;
+        }
     }
 }
 

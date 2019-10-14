@@ -13,10 +13,10 @@ namespace S_KYA.ashx
     /// <summary>
     /// LoginHandler 的摘要说明
     /// </summary>
-    public class LoginHandler : IHttpHandler, IRequiresSessionState
+    public class LoginHandler : KA_BasePage
     {
 
-        public void ProcessRequest(HttpContext context)
+        public override void ProcessRequest(HttpContext context)
         {
             //初始化密码
             string pwd= StringHelper.MD5string("111111" +StringHelper.RandomString(4));
@@ -57,6 +57,7 @@ namespace S_KYA.ashx
                         {
                             msg = new { success = false, message = "亲，您的帐号已被禁用，请联系管理员吧。" };
                         }
+                        Sys_User = u;
                         msg = new { success = true, message = "ok" };//跳过验证，随便都可以登录
                     }
                     else
@@ -75,16 +76,6 @@ namespace S_KYA.ashx
             context.Response.Write(JSONhelper.ToJson(msg));
             context.Response.End();
         }
-
-        public bool IsReusable
-        {
-            get
-            {
-                return false;
-            }
-        }
-
-
     }
 }
 /*
