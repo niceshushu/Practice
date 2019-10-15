@@ -148,10 +148,10 @@ namespace S_KYA.Admin.ashx.sys
         private bool CheckRights(string Mid)
         {
             bool hasRight = false;
-            //if (base.IsAdmin)
-            //{
-            //    return true;
-            //}
+            if (base.Sys_User.UserName.ToLower()=="admin")
+            {
+                return true;
+            }
 
             hasRight = false;
             //base.OperatorGroupIDs.Contains(p.Group_ID) && 
