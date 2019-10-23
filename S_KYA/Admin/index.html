@@ -71,8 +71,18 @@
             }]
         });
 
+        function getQueryVariable(variable,url) {
+            var query = url;
+            var vars = query.split("&");
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split("=");
+                if (pair[0] == variable) { return pair[1]; }
+            }
+            return (false);
+        }
         //添加到tab页
-        function addTab(title, url, icon) {
+        function addTab(title, url, icon, Mid) {
+            console.log(Mid);
             console.log(title);
             console.log(url);
             console.log(icon);
@@ -82,11 +92,14 @@
             console.log($("#tt").tabs("tabs").length);//当前面板的个数
             var ttCount = $("#tt").tabs("tabs").length;
             var hasTab = $('#tt').tabs('exists', title);//判断是否存在
+            var tmpurl = url + "?Mid=" + Mid + "&t=" + new Date().getTime();
+            console.log(tmpurl);
+            console.log(getQueryVariable("Mid", tmpurl));
             var add = function () {
                 if (!hasTab) {
                     $('#tt').tabs('add', {
                         title: title,
-                        href: url,
+                        href: tmpurl,
                         //content: createFrame(url),
                         closable: true,
                         icon: icon
@@ -156,7 +169,7 @@
                                     onClick: function (node) {
                                         console.log(node);
                                         if (node.attributes != "COMMON_NULL") {
-                                            addTab(node.text, node.attributes, node.iconCls);
+                                            addTab(node.text, node.attributes, node.iconCls, node.id);
                                         }
                                     }
                                 });

@@ -23,6 +23,10 @@
 </div>
 <script type="text/javascript">
     $(function () {
+        console.log($('#tt').tabs('getSelected').title);
+        alert(getParameterByName("Mid"));
+        alert("comming~");
+
         $("#PSys_User_dg").datagrid({
             url: "ashx/sys/Sys_UserHandler.ashx?opertype=getList",
             toolbar: [
@@ -30,9 +34,9 @@
                     id: 'psysUserbtnAdd',
                     text: '新增',
                     iconCls: 'icon-add',
-                    handler: function () {
-                        initEditFrame("add");
-                    }
+                    handler: function() {
+                        addedit();
+                    } 
                 }
                 , '-',
                 {
@@ -61,6 +65,27 @@
             pageList: [1, 20, 40, 60, 80, 100]
         });
     });
+    function addedit() {
+          initEditFrame("add");
+    }
+
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results == null ? "" : decodeURIComponent(results[1]);
+    }
+
+    function getQueryVariable(variable) {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split("=");
+            if (pair[0] == variable) { return pair[1]; }
+        }
+        return (false);
+    }
+
     //根据操作类型打开窗口
     function initEditFrame(operatorType) {
         let haveChange = false;//是否有值改变--决定是否刷新datagrid
@@ -150,6 +175,21 @@
         $('#editDiv').dialog("close");
         if (Refresh) {
             $("#PSys_User_dg").datagrid('reload');
+        }
+    }
+
+    //拼接按钮
+    function getToolBar (data) {
+        if (data.toolbar != undefined && data.toolbar != '') {
+            var toolbar = [];
+            $.each(data.toolbar, function (index, row) {
+                var handler = row.handler;
+                row.handler = function () { eval(handler); };
+                toolbar.push(row);
+            });
+            return toolbar;
+        } else {
+            return [];
         }
     }
 </script>

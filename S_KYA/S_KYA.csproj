@@ -587,7 +587,9 @@
       <DependentUpon>ValidateCode.ashx</DependentUpon>
     </Compile>
     <Compile Include="App_Code\KA_BasePage.cs" />
-    <Compile Include="App_Code\kBuffer.cs" />
+    <Compile Include="App_Code\kBuffer.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="CommonPage\ErrPage.aspx.cs">
       <DependentUpon>ErrPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

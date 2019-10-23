@@ -140,32 +140,32 @@ namespace S_KYA.Admin.ashx.sys
             }
         }
 
-        /// <summary>
-        /// 检测权限
-        /// </summary>
-        /// <param name="Mid"></param>
-        /// <returns></returns>
-        private bool CheckRights(string Mid)
-        {
-            bool hasRight = false;
-            if (base.Sys_User.UserName.ToLower()=="admin")
-            {
-                return true;
-            }
+        ///// <summary>
+        ///// 检测权限
+        ///// </summary>
+        ///// <param name="Mid"></param>
+        ///// <returns></returns>
+        //private bool CheckRights(string Mid)
+        //{
+        //    bool hasRight = false;
+        //    if (base.Sys_User.UserName.ToLower()=="admin")
+        //    {
+        //        return true;
+        //    }
 
-            hasRight = false;
-            //base.OperatorGroupIDs.Contains(p.Group_ID) && 
-            List<Mod_Sys_Author> srg = (from p in kBuffer._Table_Sys_Author
-                                        where p.ResourceId.ToString() == Mid && p.RoleId == base.Sys_User.RoleId
-                                        orderby p.ResourceId, p.RoleId
-                                        select p).ToList();
-            if (srg != null && srg.Count > 0)
-            {
-                hasRight = true;
-            }
+        //    hasRight = false;
+        //    //base.OperatorGroupIDs.Contains(p.Group_ID) && 
+        //    List<Mod_Sys_Author> srg = (from p in kBuffer._Table_Sys_Author
+        //                                where p.ResourceId.ToString() == Mid && p.RoleId == base.Sys_User.RoleId
+        //                                orderby p.ResourceId, p.RoleId
+        //                                select p).ToList();
+        //    if (srg != null && srg.Count > 0)
+        //    {
+        //        hasRight = true;
+        //    }
 
-            return hasRight;
-        }
+        //    return hasRight;
+        //}
     }
 
 
