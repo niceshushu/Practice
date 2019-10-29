@@ -24,6 +24,9 @@ namespace S_KYA.Admin.ashx.sys
                 case "getList":
                     getBtnList();
                     break;
+                case "getSingle":
+                    getSingle();
+                    break;
                 case "add":
                     break;
                 case "edit":
@@ -32,6 +35,11 @@ namespace S_KYA.Admin.ashx.sys
                     break;
             }
             context.Response.End();
+        }
+
+        private void getSingle()
+        {
+            string MenuID = HttpContext.Current.Request.Params["MenuID"].ToString();
         }
 
         public bool IsReusable

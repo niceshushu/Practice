@@ -23,6 +23,8 @@
     </style>
 </head>
 <body class="easyui-layout">
+    <!--全局tab页面ID-->
+    <input type="hidden" id="CurrentMenuId" name="CurrentMenuId" />
     <!--顶部Begin-->
     <div data-options="region:'north',border:false" style="height:60px;background:#B3DFDA;">
         <span style="font-size:32px;"></span>
@@ -82,19 +84,21 @@
         }
         //添加到tab页
         function addTab(title, url, icon, Mid) {
-            console.log(Mid);
-            console.log(title);
-            console.log(url);
-            console.log(icon);
+            $("#CurrentMenuId").val(Mid);//设置全局的Mid鉴权用
+            //console.log(Mid);
+            //console.log(title);
+            //console.log(url);
+            //console.log(icon);
             if (url == "" || url == "#") {
                 return false;
             }
             console.log($("#tt").tabs("tabs").length);//当前面板的个数
             var ttCount = $("#tt").tabs("tabs").length;
             var hasTab = $('#tt').tabs('exists', title);//判断是否存在
-            var tmpurl = url + "?Mid=" + Mid + "&t=" + new Date().getTime();
-            console.log(tmpurl);
-            console.log(getQueryVariable("Mid", tmpurl));
+            //var tmpurl = url + "?Mid=" + Mid + "&t=" + new Date().getTime();
+            //console.log($("#CurrentMenuId").val()+"_hhahah");
+            //console.log(tmpurl);
+            //console.log(getQueryVariable("Mid", tmpurl));
             var add = function () {
                 if (!hasTab) {
                     $('#tt').tabs('add', {

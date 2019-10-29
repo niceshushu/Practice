@@ -24,8 +24,13 @@
 <script type="text/javascript">
     $(function () {
         console.log($('#tt').tabs('getSelected').title);
-        alert(getParameterByName("Mid"));
+        alert($("#CurrentMenuId").val());
         alert("comming~");
+
+        $.post("ashx/sys/Sys_BtnHandler.ashx", function (data) {
+            alert("Data Loaded: " + data);
+        });
+
 
         $("#PSys_User_dg").datagrid({
             url: "ashx/sys/Sys_UserHandler.ashx?opertype=getList",
@@ -44,7 +49,7 @@
                     text: '编辑',
                     iconCls: 'icon-edit',
                     handler: function () {
-                        initEditFrame("edit");
+                        addedit();
                     }
                 }
                 , '-',
