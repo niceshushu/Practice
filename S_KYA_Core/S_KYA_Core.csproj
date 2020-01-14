@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -51,6 +54,7 @@
     <Compile Include="Dal\Dal_Sys_Menu.cs" />
     <Compile Include="Dal\Dal_Sys_Role.cs" />
     <Compile Include="Dal\Dal_Sys_User.cs" />
+    <Compile Include="Model\BaseSession.cs" />
     <Compile Include="Model\Mod_Com_Json.cs" />
     <Compile Include="Model\Mod_Com_Pager.cs" />
     <Compile Include="Model\Mod_Sys_Btn.cs" />
@@ -58,10 +62,14 @@
     <Compile Include="Model\Mod_Sys_Role.cs" />
     <Compile Include="Model\Mod_Sys_User.cs" />
     <Compile Include="Model\Mod_Sys_Author.cs" />
+    <Compile Include="Model\TimestampConverter.cs" />
+    <Compile Include="Model\UnicodeConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Struct\DataBaseStatuCode.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\S_KYA_Common.csproj">
       <Project>{65689a40-db8d-49db-a34f-4f933cd1c0a8}</Project>

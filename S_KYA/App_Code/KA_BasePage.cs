@@ -4,21 +4,53 @@ using System.Linq;
 using System.Web;
 using S_KYA_Core.Model;
 using System.Web.SessionState;
+using StackExchange.Redis;
 
 public abstract class KA_BasePage : IHttpHandler, IRequiresSessionState
 {
 
+    private static bool useRedis = true;
     private static Mod_Sys_User _Sys_User = null;
     public static Mod_Sys_User Sys_User
     {
         get
         {
-            return _Sys_User = _Sys_User ?? HttpContext.Current.Session["kya_Sys_UserInfo"] as Mod_Sys_User;
+            if (useRedis)
+            {
+                //Cookie名字要设置
+                if (HttpContext.Current.Request.Cookies["hello"] == null)
+                {
+                    return null;
+                }
+                var token = HttpContext.Current.Request.Cookies["hello"].Value;
+                var user = MySessionService.Get<Mod_Sys_User>(token);
+                return _Sys_User = _Sys_User ?? user as Mod_Sys_User;
+            }
+            else
+            {
+                //传统Session
+                return _Sys_User = _Sys_User ?? HttpContext.Current.Session["kya_Sys_UserInfo"] as Mod_Sys_User;
+            }
         }
         set
         {
             _Sys_User = value;
-            HttpContext.Current.Session["kya_Sys_UserInfo"] = _Sys_User;
+            if (_Sys_User != null)
+            {
+                if (useRedis)
+                {
+                    //存Cookie，存Session
+                    var token = MySessionService.Add(_Sys_User, "hha");
+                    HttpContext.Current.Response.Cookies.Clear();
+                    HttpContext.Current.Response.Cookies.Add(new HttpCookie("hello", token));
+                    HttpContext.Current.Response.Cookies["hello"].Expires = _Sys_User.ExpiresTime.AddMinutes(-2);//早两分钟失效
+                }
+                else
+                {
+                    //传统Session
+                    HttpContext.Current.Session["kya_Sys_UserInfo"] = _Sys_User;
+                }
+            }
         }
     }
 
