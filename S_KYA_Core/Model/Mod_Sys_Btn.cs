@@ -58,7 +58,16 @@ namespace S_KYA_Core.Model
             get { return _menuid; }
             set { _menuid = value; }
         }
-
+        private string _icon;
+        /// <summary>
+        /// 图标
+        /// </summary>	
+        public string Icon
+        {
+            get { return _icon; }
+            set { _icon = value; }
+        }
+        
     }
 
 }

@@ -41,6 +41,7 @@
             </div>
         </form>
     </div>
+
     <div id="meunAlertDiv">
         <!-- 弹框编辑按钮页面 -->
     </div>
@@ -103,7 +104,6 @@
             if (node.pid === "0") {//判断是否为导航模块
                 $.messager.alert("提示", "导航模块无法设置按钮!");
             } else {
-
                 //再弹窗
                 $('#meunAlertDiv').dialog({
                     title: "设置按钮窗口",
@@ -115,17 +115,15 @@
                     href: 'page/sys/Btn/Sys_Btn_Edit.html',//这里一定是当前主目录路径开始
                     //这里一定要记住，区分大小写啊啊啊！！！！！！坑！onLoad
                     onLoad: function () {
-                        //在onLoad中去读取数据，加载到要弹出的页面
-
-                        $("#PSys_Btn_dg").datagrid({
-                            url: "ashx/sys/Sys_BtnHandler.ashx?opertype=getList&MenuID="+node.id,
+                        $("#PSys_Btn_dgs").datagrid({
+                            url: "ashx/sys/Sys_BtnHandler.ashx?opertype=getList&MenuID=" + node.id,
                             toolbar: [
                                 {
                                     id: 'psysUserbtnAdd',
                                     text: '新增',
                                     iconCls: 'icon-add',
                                     handler: function () {
-                                        initEditFrame("add");
+                                        initMenuEditFrame("add");
                                     }
                                 }
                                 , '-',
@@ -134,7 +132,7 @@
                                     text: '编辑',
                                     iconCls: 'icon-edit',
                                     handler: function () {
-                                        initEditFrame("edit");
+                                        initMenuEditFrame("edit");
                                     }
                                 }
                                 , '-',
@@ -162,18 +160,18 @@
                         text: '保存',
                         handler: function () {
                             //ajax提交表单
-                            $.post("ashx/sys/Sys_UserHandler.ashx?opertype=add", $("#Sys_User_Form").serialize(),
-                                function (data) {
-                                    data = JSON.parse(data);
-                                    if (data.StatuCode == "200") {
-                                        showMsgClose(data.Message, true);
-                                    }
-                                    else {
-                                        showMsgClose(data.Message, false);
-                                    }
-                                    console.log(data);
-                                    console.log(data.Message);
-                                });
+                            //$.post("ashx/sys/Sys_UserHandler.ashx?opertype=add", $("#Sys_User_Form").serialize(),
+                            //    function (data) {
+                            //        data = JSON.parse(data);
+                            //        if (data.StatuCode == "200") {
+                            //            showMsgClose(data.Message, true);
+                            //        }
+                            //        else {
+                            //            showMsgClose(data.Message, false);
+                            //        }
+                            //        console.log(data);
+                            //        console.log(data.Message);
+                            //    });
                         }
                     }, {
                         text: '关闭',
@@ -182,6 +180,7 @@
                         }
                     }]
                 });
+
             }
 
         } else {
@@ -260,6 +259,7 @@
         }
 
     }
+
     //判断是否有选中的节点,并赋值
     function psmSetValue() {
         psmClearControlVal();
@@ -322,5 +322,21 @@
         $("#pmenuMenu_Url").attr("readonly", !canEdit);
         $("#pmenuIcon").attr("readonly", !canEdit);
         $("#pmenuSort").attr("readonly", !canEdit);
+    }
+
+    
+    //初始化编辑页面
+    function initMenuEditFrame(operatorType) {
+        var row = $('#PSys_Btn_dgs').datagrid('getSelections');
+        //选中判断
+        if (operatorType == "edit") {
+            currentWidth = 260;
+            currentHeight = 150;
+            if (row.length != 1) {
+                $.messager.alert('提醒', '没有选中值或者选择了多个');
+                return
+            }
+        }
+        alert(operatorType + "_" + row.length);
     }
 </script>

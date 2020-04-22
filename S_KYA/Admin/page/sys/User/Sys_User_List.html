@@ -23,43 +23,44 @@
 </div>
 <script type="text/javascript">
     $(function () {
-        console.log($('#tt').tabs('getSelected').title);
-        alert($("#CurrentMenuId").val());
-        alert("comming~");
-
-        $.post("ashx/sys/Sys_BtnHandler.ashx", function (data) {
-            alert("Data Loaded: " + data);
+        var toolbar = "";
+        $.ajax({
+            url: "ashx/sys/Sys_BtnHandler.ashx?opertype=getTool&MenuId=" + $("#CurrentMenuId").val() + "&t=" + new Date().getTime(),
+            type: "get",
+            dataType:"html",
+            async: false,
+            error: function (XMLHttpRequest) {
+                console.log(XMLHttpRequest);
+            },
+            success: function (data) {
+                console.log(data);
+                //$("#toolBars").html(data);
+                //$.parser.parse($("#toolBars"));
+                //$("#psysUserbtnEdit").click(psysUserbtnEdit());
+                loadGrid(data);
+            }
         });
+        //console.log("sssssssssssssss");
+        //console.log($('#tt').tabs('getSelected').title);
+        //alert($("#CurrentMenuId").val());
+        //alert("comming~");
+        //console.log("1111111111");
+       
 
 
+    });
+    function psysUserbtnHelp() {
+        initEditFrame("edit");
+    }
+    function psysUserbtnEdit() {
+        initEditFrame("add");
+    }
+
+    function loadGrid(data) {
+        var toolbar = getToolBar(data); 
         $("#PSys_User_dg").datagrid({
             url: "ashx/sys/Sys_UserHandler.ashx?opertype=getList",
-            toolbar: [
-                {
-                    id: 'psysUserbtnAdd',
-                    text: '新增',
-                    iconCls: 'icon-add',
-                    handler: function() {
-                        addedit();
-                    } 
-                }
-                , '-',
-                {
-                    id: 'psysUserbtnEdit',
-                    text: '编辑',
-                    iconCls: 'icon-edit',
-                    handler: function () {
-                        addedit();
-                    }
-                }
-                , '-',
-                {
-                    id: 'psysUserbtnHelp',
-                    text: '帮助',
-                    iconCls: 'icon-help',
-                    handler: function () { alert('帮助按钮') }
-                }
-            ],
+            toolbar: toolbar,
             frozenColumns: [[{ field: 'ck', checkbox: true }]],
             columns: [[
                 { field: 'UserName', title: '名称', width: 100 },
@@ -69,9 +70,10 @@
             pageSize: 1,
             pageList: [1, 20, 40, 60, 80, 100]
         });
-    });
+    }
+
     function addedit() {
-          initEditFrame("add");
+        initEditFrame("add");
     }
 
     function getParameterByName(name) {
@@ -125,7 +127,7 @@
                         break;
                     case 'edit':
                         //赋值
-                        $('#psys_user_hidUserId').val(row[0].UserId); 
+                        $('#psys_user_hidUserId').val(row[0].UserId);
                         $('#psys_user_txtUserName').val(row[0].UserName);
                         console.log(row[0].UserId);
                         $('#psys_user_chkIsDisabled').prop('checked', row[0].IsDisabled == "0" ? false : true);
@@ -184,7 +186,8 @@
     }
 
     //拼接按钮
-    function getToolBar (data) {
+    function getToolBar(data) {
+        data = JSON.parse(data);
         if (data.toolbar != undefined && data.toolbar != '') {
             var toolbar = [];
             $.each(data.toolbar, function (index, row) {
@@ -198,3 +201,34 @@
         }
     }
 </script>
+
+
+<!--
+
+[
+                {
+                    id: 'psysUserbtnAdd',
+                    text: '新增',
+                    iconCls: 'icon-add',
+                    handler: function () {
+                        addedit();
+                    }
+                }
+                , '-',
+                {
+                    id: 'psysUserbtnEdit',
+                    text: '编辑',
+                    iconCls: 'icon-edit',
+                    handler: function () {
+                        addedit();
+                    }
+                }
+                , '-',
+                {
+                    id: 'psysUserbtnHelp',
+                    text: '帮助',
+                    iconCls: 'icon-help',
+                    handler: function () { alert('帮助按钮') }
+                }
+            ]
+-->

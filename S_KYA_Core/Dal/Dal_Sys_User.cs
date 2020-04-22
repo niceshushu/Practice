@@ -45,7 +45,7 @@ namespace S_KYA_Core.Dal
             if (!string.IsNullOrEmpty(strPageSql))
             {
                 dataSet = SqlEasy.ExecuteDataSet(strPageSql);
-               return ConvertToListData(dataSet);
+                return ConvertToListData(dataSet);
                 //return dataSet;
             }
             else
@@ -70,7 +70,7 @@ namespace S_KYA_Core.Dal
                     Sys_User.PassWord = dt.Rows[0]["PassWord"].ToString();
                     Sys_User.UserName = dt.Rows[0]["UserName"].ToString();
                     Sys_User.RoleId = Convert.ToInt32(dt.Rows[0]["RoleId"]);
-                    Sys_User.PassSalt= dt.Rows[0]["PassSalt"].ToString();
+                    Sys_User.PassSalt = dt.Rows[0]["PassSalt"].ToString();
                     if (dt.Rows[0]["IsDisabled"] == DBNull.Value)
                     {
                         Sys_User.IsDisabled = false;
@@ -137,13 +137,13 @@ namespace S_KYA_Core.Dal
         public int Update(Mod_Sys_User model)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("Update Sys_User SET");
-            strSql.Append("UserName=@UserName");
-            strSql.Append("PassWord=@PassWord");
-            strSql.Append("RoleId=@RoleId");
-            strSql.Append("PassSalt=@PassSalt");
-            strSql.Append("IsDisabled=@IsDisabled");
-
+            strSql.Append(" Update Sys_User SET ");
+            strSql.Append(" UserName=@UserName, ");
+            strSql.Append(" PassWord=@PassWord, ");
+            strSql.Append(" RoleId=@RoleId, ");
+            strSql.Append(" PassSalt=@PassSalt, ");
+            strSql.Append(" IsDisabled=@IsDisabled ");
+            strSql.Append(" where 1=1 and UserId=" + model.UserId);
             SqlParameter[] parameters = {
                         new SqlParameter("@UserName", SqlDbType.NVarChar,100) ,
                         new SqlParameter("@PassWord", SqlDbType.NVarChar,100) ,
@@ -183,7 +183,7 @@ namespace S_KYA_Core.Dal
                 for (int i = 0; i < dataSet.Tables[0].Rows.Count; i++)
                 {
                     Mod_Sys_User sys_User = new Mod_Sys_User();
-                    sys_User.IsDisabled = dataSet.Tables[0].Rows[i]["IsDisabled"].ToString() == "0" ? false : true;
+                    sys_User.IsDisabled = dataSet.Tables[0].Rows[i]["IsDisabled"].ToString().ToLower() == "false" ? false : true;
                     sys_User.PassSalt = dataSet.Tables[0].Rows[i]["PassSalt"].ToString();
                     sys_User.PassWord = dataSet.Tables[0].Rows[i]["PassWord"].ToString();
                     sys_User.RoleId = Convert.ToInt32(dataSet.Tables[0].Rows[i]["RoleId"].ToString() == "" ? "-1" : dataSet.Tables[0].Rows[i]["RoleId"].ToString());

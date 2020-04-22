@@ -55,7 +55,12 @@
 
     </div>
     <!--中间部分End-->
-
+    <!--全局的工具栏Begin-->
+    <div id="toolBars">
+        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true"></a>
+        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-help',plain:true"></a>
+    </div>
+    <!--全局的工具栏End-->
     <script type="text/javascript">
         $("#tt").tabs({
             tools: [{
@@ -73,7 +78,7 @@
             }]
         });
 
-        function getQueryVariable(variable,url) {
+        function getQueryVariable(variable, url) {
             var query = url;
             var vars = query.split("&");
             for (var i = 0; i < vars.length; i++) {

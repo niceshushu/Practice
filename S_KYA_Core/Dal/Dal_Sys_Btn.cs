@@ -95,6 +95,7 @@ namespace S_KYA_Core.Dal
                     sys_btn.BtnName = dataSet.Tables[0].Rows[i]["BtnName"].ToString();
                     sys_btn.BtnTitle = dataSet.Tables[0].Rows[i]["BtnTitle"].ToString();
                     sys_btn.MenuID = Convert.ToInt32(dataSet.Tables[0].Rows[i]["MenuID"].ToString());
+                    sys_btn.Icon = dataSet.Tables[0].Rows[i]["Icon"].ToString();
                     tmpLiSys_Btn.Add(sys_btn);
                 }
                 return tmpLiSys_Btn;

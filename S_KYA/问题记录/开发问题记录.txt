@@ -35,3 +35,21 @@ jq 1.9 以上版本，废除了 live，用$.on()代替
 但是由于不是嵌套的。可以在绑定之前先取消这个点击绑定事件。
 	例如：$(".queryLogistics").off("click").on("click", function(){});
 建议做法，直接写在对用的html元素中
+8
+问题:Easyui从后台获取html代码，重新渲染的问题
+思考:
+  $("#toolBars").html(data);--此处data是我从后台动态拼接的,到前台显示的时候，始终无法到正常样子，
+  原内容如下:
+<a id="psysUserbtnEdit" style="float:left" href = "javascript:;" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:'true'" >编辑</a>
+<a  id="psysUserbtnHelp" style="float:left" href = "javascript:;" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:'true'" >帮助</a>
+ 一直在找原因，想到了浏览器可能是在页面之后就渲染完了，新的东西又需要重新渲染，于是百度关键字:easyui重新渲染找到如下帖子，感谢前人
+ https://www.cnblogs.com/exmyth/p/4532112.html
+ --
+ 解决:
+ $("#toolBars").html(data);这里要注意,如果使用$("#toolBars").Append(data),则不会渲染成功
+ $.parser.parse($("#toolBars"));而渲染的时候，则需要渲染当前的那个块即可,后续不行，否定
+ 9
+ 问题，后台获取toolbar的问题
+ 思考:toolbar使用的是渲染的？于是乎看api啊~
+ 见代码吧，改为从后台获取toolbar的json字符串到前台，前端别忘了JSON.parse(data);
+

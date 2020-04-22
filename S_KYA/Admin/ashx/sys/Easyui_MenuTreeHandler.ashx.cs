@@ -84,6 +84,10 @@ namespace S_KYA.Admin.ashx.sys
                     }
                 }
             }
+            if (sb.ToString().EndsWith(","))
+            {
+                sb.Remove(sb.Length - 1, 1);
+            }
             sb.Append("]");
             return sb.ToString();
         }

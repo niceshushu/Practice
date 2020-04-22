@@ -13,10 +13,10 @@ namespace S_KYA.Admin.ashx.sys
     /// <summary>
     /// Sys_UserHandler 的摘要说明
     /// </summary>
-    public class Sys_UserHandler : IHttpHandler
+    public class Sys_UserHandler : KA_BasePage
     {
 
-        public void ProcessRequest(HttpContext context)
+        public override void ProcessRequest(HttpContext context)
         {
             context.Response.ContentType = "text/plain";
             string Operate = context.Request["opertype"];
@@ -42,14 +42,28 @@ namespace S_KYA.Admin.ashx.sys
             Hashtable ht = new Hashtable();
             string UserId = HttpContext.Current.Request.Params["psys_user_hidUserId"];
             string UserName = HttpContext.Current.Request.Params["psys_user_txtUserName"];
-            string IsDisabled = HttpContext.Current.Request.Params["psys_user_chkIsDisabled"]==null?"false":"true";
-            ht.Add("UserId", $" and UserName ='{UserId}'");
+            string IsDisabled = HttpContext.Current.Request.Params["psys_user_chkIsDisabled"] == null ? "false" : "true";
+            ht.Add("UserId", $" and UserId ='{UserId}'");
             var TempUser = Bll_Sys_User.Instance.getSysUserList(ht);
 
             Mod_Com_Json mod_Com_Json = new Mod_Com_Json();
             if (TempUser.Count > 0)
             {
-                //TempUser.
+                TempUser[0].UserName = UserName;
+                TempUser[0].IsDisabled = IsDisabled == "false" ? false : true;
+                int resultNum = Bll_Sys_User.Instance.Update(TempUser[0]);
+                if (resultNum != 1)
+                {
+                    mod_Com_Json.Data = "";
+                    mod_Com_Json.Message = "失败,用户名重复";
+                    mod_Com_Json.StatuCode = "-1";
+                }
+                else
+                {
+                    mod_Com_Json.Data = "";
+                    mod_Com_Json.Message = "修改成功";
+                    mod_Com_Json.StatuCode = "200";
+                }
             }
             else
             {
@@ -69,34 +83,25 @@ namespace S_KYA.Admin.ashx.sys
             ht.Add("UserName", $" and UserName ='{UserName}'");
             var TempUser = Bll_Sys_User.Instance.getSysUserList(ht);
             Mod_Com_Json mod_Com_Json = new Mod_Com_Json();
-            if (TempUser.Count > 0)
+            if (TempUser == null)
             {
-                if (TempUser.Count <= 0)
-                {
-                    Mod_Sys_User mod_Sys_User = new Mod_Sys_User();
-                    mod_Sys_User.PassSalt = PassSalt;
-                    mod_Sys_User.PassWord = PassWord;
-                    mod_Sys_User.RoleId = -1;
-                    mod_Sys_User.UserName = UserName;
-                    int result = Bll_Sys_User.Instance.Add(mod_Sys_User);
+                Mod_Sys_User mod_Sys_User = new Mod_Sys_User();
+                mod_Sys_User.PassSalt = PassSalt;
+                mod_Sys_User.PassWord = PassWord;
+                mod_Sys_User.RoleId = -1;
+                mod_Sys_User.UserName = UserName;
+                int result = Bll_Sys_User.Instance.Add(mod_Sys_User);
 
-                    if (result == 1)
-                    {
-                        mod_Com_Json.Data = "";
-                        mod_Com_Json.Message = "成功";
-                        mod_Com_Json.StatuCode = "200";
-                    }
-                    else
-                    {
-                        mod_Com_Json.Data = "";
-                        mod_Com_Json.Message = "失败";
-                        mod_Com_Json.StatuCode = "-1";
-                    }
+                if (result == 1)
+                {
+                    mod_Com_Json.Data = "";
+                    mod_Com_Json.Message = "成功";
+                    mod_Com_Json.StatuCode = "200";
                 }
                 else
                 {
                     mod_Com_Json.Data = "";
-                    mod_Com_Json.Message = "失败,用户名重复";
+                    mod_Com_Json.Message = "失败";
                     mod_Com_Json.StatuCode = "-1";
                 }
             }

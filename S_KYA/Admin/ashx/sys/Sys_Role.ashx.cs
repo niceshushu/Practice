@@ -12,10 +12,10 @@ namespace S_KYA.Admin.ashx.sys
     /// <summary>
     /// Sys_Role 的摘要说明
     /// </summary>
-    public class Sys_Role : IHttpHandler
+    public class Sys_Role : KA_BasePage
     {
 
-        public void ProcessRequest(HttpContext context)
+        public override void ProcessRequest(HttpContext context)
         {
             context.Response.ContentType = "application/json";
             string Operate = context.Request["opertype"];

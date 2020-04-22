@@ -10,10 +10,10 @@ namespace S_KYA.Admin.ashx.sys
     /// <summary>
     /// Sys_MenuHandler 的摘要说明
     /// </summary>
-    public class Sys_MenuHandler : IHttpHandler
+    public class Sys_MenuHandler : KA_BasePage
     {
 
-        public void ProcessRequest(HttpContext context)
+        public override void ProcessRequest(HttpContext context)
         {
             context.Response.ContentType = "text/plain";
             string Operate = context.Request["psm_opertype"];

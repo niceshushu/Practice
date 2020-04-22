@@ -9,15 +9,15 @@ namespace S_KYA
     /// <summary>
     /// ValidateCode 的摘要说明
     /// </summary>
-    public class ValidateCode : IHttpHandler,IRequiresSessionState
+    public class ValidateCode :  KA_BasePage
     {
 
-        public void ProcessRequest(HttpContext context)
+        public override void ProcessRequest(HttpContext context)
         {
             BuildCode(context);
         }
 
-        public bool IsReusable
+        public  bool IsReusable
         {
             get
             {

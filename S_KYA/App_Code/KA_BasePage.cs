@@ -8,8 +8,8 @@ using StackExchange.Redis;
 
 public abstract class KA_BasePage : IHttpHandler, IRequiresSessionState
 {
-
-    private static bool useRedis = true;
+    //redis缓存开关,以后迁移到配置文件去吧
+    private static bool useRedis = false;
     private static Mod_Sys_User _Sys_User = null;
     public static Mod_Sys_User Sys_User
     {
