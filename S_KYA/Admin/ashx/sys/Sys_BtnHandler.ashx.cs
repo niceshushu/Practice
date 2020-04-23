@@ -18,6 +18,7 @@ namespace S_KYA.Admin.ashx.sys
 
         public override void ProcessRequest(HttpContext context)
         {
+            context.Request.ContentEncoding = System.Text.Encoding.UTF8;
             context.Response.ContentType = "application/json";
             string Operate = context.Request["opertype"];
             switch (Operate)
@@ -32,9 +33,10 @@ namespace S_KYA.Admin.ashx.sys
                     getToolBarByMuid(context.Request["MenuId"], context);
                     break;
                 case "add":
+                    addBtn();
                     break;
                 case "edit":
-
+                    break;
                 default:
                     break;
             }
@@ -74,7 +76,7 @@ namespace S_KYA.Admin.ashx.sys
                 }
                 sb.Append("{\"text\": \"" + item.BtnName + "\",\"iconCls\":\"" + item.Icon + "\",\"handler\":\"" + item.BtnCode + "();\"},");
             }
-            sb.Remove(sb.Length-1,1);
+            sb.Remove(sb.Length - 1, 1);
             sb.Append("]}");
             //strResult = result.ToString().Trim(new char[] {',' });
             //strResult= strResult+"]";
@@ -87,13 +89,6 @@ namespace S_KYA.Admin.ashx.sys
             string MenuID = HttpContext.Current.Request.Params["MenuID"].ToString();
         }
 
-        public bool IsReusable
-        {
-            get
-            {
-                return false;
-            }
-        }
         public void getBtnList()
         {
             int pageindex = int.Parse(HttpContext.Current.Request.Params["page"]);
@@ -108,10 +103,55 @@ namespace S_KYA.Admin.ashx.sys
             }
             var li_sys_Users = Bll_Sys_Btn.Instance.getSysBtnList(ht, "BtnID", pager);
             List<Mod_Sys_Btn> _Sys_User = new List<Mod_Sys_Btn>();
-            string result = $"\"total\":\"{pager.RowCount.ToString()}\",\"rows\":{JSONhelper.ToJson(li_sys_Users)}";
+            string result = "";
+            if (li_sys_Users != null && li_sys_Users.Count > 0)
+            {
+                result = $"\"total\":\"{pager.RowCount.ToString()}\",\"rows\":{JSONhelper.ToJson(li_sys_Users)}";
+            }
+            else
+            {
+                result = $"\"total\":\"{pager.RowCount.ToString()}\",\"rows\":[]";
+            }
             result = "{" + result + "}";
             //string result = $"\"total\": \"{ pager.RowCount.ToString()} \",\"rows\":\"{JSONhelper.ToJson(dt)}\"";
             HttpContext.Current.Response.Write(result);
+        }
+
+        /// <summary>
+        /// 新增按钮
+        /// </summary>
+        /// <param name="context"></param>
+        public void addBtn()
+        {
+            Mod_Sys_Btn mb = new Mod_Sys_Btn();
+            BindDataToModel(ref mb);
+            //JSONhelper.ConvertToObject<Mod_Sys_Btn>();
+        }
+
+        /// <summary>
+        /// 编辑按钮
+        /// </summary>
+        /// <param name="context"></param>
+        public void editBtn(HttpContext context)
+        {
+
+        }
+
+
+        public void BindDataToModel(ref Mod_Sys_Btn _Sys_Btn)
+        {
+            string Operate = HttpContext.Current.Request["opertype"];
+            if (Operate.ToLower() != "add")
+            {
+                _Sys_Btn.BtnID = Convert.ToInt32(HttpContext.Current.Request.Form["BtnID"]);
+            }
+
+            _Sys_Btn.BtnCode = HttpContext.Current.Request.Form["BtnCode"];
+            _Sys_Btn.Icon = HttpContext.Current.Request.Form["Icon"];
+            _Sys_Btn.BtnName = HttpContext.Current.Request.Form["BtnName"];
+            _Sys_Btn.BtnTitle = HttpContext.Current.Request.Form["BtnTitle"];
+            _Sys_Btn.MenuID = Convert.ToInt32(HttpContext.Current.Request["MenuID"]);
+
         }
     }
 }

@@ -1,5 +1,28 @@
-﻿<div id="PSys_Btn_Edit" class="easyui-layout" data-options="fit:true,border:false">
-    <div data-options="region:'center'" style="padding:5px;background:#eee;">
-        <table id="PSys_Btn_dgs" data-options="fit:true,border:false"></table>
-    </div>
+﻿<div>
+    <form id="Sys_Btn_SetMenuBtn" enctype="multipart/form-data" >
+        <table>
+            <tr>
+                <td>
+                    <label>编码:</label>
+                    <input type="text" id="Sys_Btn_BtnCode" name="BtnCode" />
+                </td>
+                <td>
+                    <label>名称:</label>
+                    <input type="text" id="Sys_Btn_BtnName" name="BtnName" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>标题:</label>
+                    <input type="text" id="Sys_Btn_BtnTitle" name="BtnTitle" />
+                </td>
+                <td>
+                    <label>图标:</label>
+                    <input type="text" id="Sys_Btn_Icon" name="Icon" />
+                </td>
+            </tr>
+        </table>
+        <input type="hidden" id="Sys_Btn_MenuID" name="MenuID" />
+        <input type="hidden" id="Sys_Btn_BtnID" name="BtnID" />
+    </form>
 </div>
