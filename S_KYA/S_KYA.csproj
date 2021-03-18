@@ -78,6 +78,7 @@
     <Content Include="Admin\index - 复制2.html" />
     <Content Include="Admin\index - 复制1.html" />
     <Content Include="Admin\page\login.html" />
+    <Content Include="Admin\page\sys\Author\Sys_Author_List.html" />
     <Content Include="Admin\page\sys\Btn\Sys_Btn_Edit.html" />
     <Content Include="Admin\page\sys\Role\Sys_Role_Edit.html" />
     <Content Include="Admin\page\sys\Role\Sys_Role_List.html" />
@@ -553,6 +554,8 @@
     <Content Include="Admin\ashx\sys\Sys_UserHandler.ashx" />
     <Content Include="Admin\ashx\sys\Sys_Role.ashx" />
     <Content Include="Admin\ashx\sys\Sys_BtnHandler.ashx" />
+    <Content Include="Admin\ashx\kBufferHandler.ashx" />
+    <Content Include="Admin\ashx\sys\Sys_AuthorHandler.ashx" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -568,11 +571,17 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Admin\ashx\kBufferHandler.ashx.cs">
+      <DependentUpon>kBufferHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\ashx\LoginHandler.ashx.cs">
       <DependentUpon>LoginHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="Admin\ashx\sys\Easyui_MenuTreeHandler.ashx.cs">
       <DependentUpon>Easyui_MenuTreeHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ashx\sys\Sys_AuthorHandler.ashx.cs">
+      <DependentUpon>Sys_AuthorHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="Admin\ashx\sys\Sys_BtnHandler.ashx.cs">
       <DependentUpon>Sys_BtnHandler.ashx</DependentUpon>
@@ -620,6 +629,7 @@
       <Name>S_KYA_Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

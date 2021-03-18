@@ -151,6 +151,7 @@ namespace S_KYA.Admin.ashx.sys
             _Sys_Btn.BtnName = HttpContext.Current.Request.Form["BtnName"];
             _Sys_Btn.BtnTitle = HttpContext.Current.Request.Form["BtnTitle"];
             _Sys_Btn.MenuID = Convert.ToInt32(HttpContext.Current.Request["MenuID"]);
+            
 
         }
     }

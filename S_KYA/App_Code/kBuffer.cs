@@ -27,7 +27,7 @@ public partial class kBuffer
         }
     }
 
-    private static void _Fresh_Table_Sys_Menu()
+    public static void _Fresh_Table_Sys_Menu()
     {
         Table_Sys_Menu = S_KYA_Core.Bll.Bll_Sys_Menu.Instance.GetList(null);
     }
@@ -48,7 +48,7 @@ public partial class kBuffer
         }
     }
 
-    private static void _Fresh_Table_Sys_Role_GroupRight()
+    public static void _Fresh_Table_Sys_Role_GroupRight()
     {
         Table_Sys_Author = S_KYA_Core.Bll.Bll_Sys_Author.Instance.GetList(null);
     }
