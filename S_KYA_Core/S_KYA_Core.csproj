@@ -60,6 +60,7 @@
     <Compile Include="Model\Mod_Sys_Btn.cs" />
     <Compile Include="Model\Mod_Sys_Menu.cs" />
     <Compile Include="Model\Mod_Sys_Role.cs" />
+    <Compile Include="Model\Mod_Sys_Role_FK.cs" />
     <Compile Include="Model\Mod_Sys_User.cs" />
     <Compile Include="Model\Mod_Sys_Author.cs" />
     <Compile Include="Model\TimestampConverter.cs" />

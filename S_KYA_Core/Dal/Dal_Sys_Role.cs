@@ -50,10 +50,13 @@ namespace S_KYA_Core.Dal
             strSql.Append(") ");
             strSql.Append(";select @@IDENTITY");
             SqlParameter[] parameters = {
-                        new SqlParameter("@RoleName", SqlDbType.NVarChar,50)
+                        new SqlParameter("@RoleName", SqlDbType.NVarChar,50),
+                        new SqlParameter("@RoleStatus", SqlDbType.VarChar,10)
+
             };
 
             parameters[0].Value = model.RoleName;
+            parameters[1].Value = model.RoleStatus;
 
             object obj = SqlEasy.ExecuteNonQuery(strSql.ToString(), parameters);
             if (obj == null)
@@ -80,11 +83,13 @@ namespace S_KYA_Core.Dal
 
             SqlParameter[] parameters = {
                         new SqlParameter("@RoleName", SqlDbType.NVarChar,50),
-                        new SqlParameter("@RoleID", SqlDbType.Int,4)
+                        new SqlParameter("@RoleID", SqlDbType.Int,4),
+                         new SqlParameter("@RoleStatus", SqlDbType.VarChar,10),
             };
 
             parameters[0].Value = model.RoleName;
             parameters[1].Value = model.RoleID;
+            parameters[2].Value = model.RoleStatus;
             int rows = SqlEasy.ExecuteNonQuery(strSql.ToString(), parameters);
             if (rows > 0)
             {
@@ -125,8 +130,9 @@ namespace S_KYA_Core.Dal
         public DataSet GetList(Hashtable ht, string order = null, Mod_Com_Pager pager = null)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select * ");
-            strSql.Append(" FROM Sys_Role ");
+            strSql.Append("select a.*,b.Name as RoleStatusName ");
+            strSql.Append(" FROM Sys_Role a ");
+            strSql.Append(" LEFT JOIN Sys_Role_Status b on a.RoleStatus=b.ID ");
             strSql.Append(" Where 1=1  ");
             if (ht != null)
             {

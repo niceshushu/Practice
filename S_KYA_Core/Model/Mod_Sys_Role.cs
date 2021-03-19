@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace S_KYA_Core.Model
 {
-    public class Mod_Sys_Role
+    public partial class Mod_Sys_Role
     {	
         private int _roleid;
         /// <summary>
@@ -23,6 +23,13 @@ namespace S_KYA_Core.Model
         /// </summary>
         public string RoleName { get => _roleName; set => _roleName = value; }
 
+
         private string _roleName;
+
+        /// <summary>
+        /// 角色状态(1正常,2停用)
+        /// </summary>
+        public string RoleStatus { get => _roleStatus; set => _roleStatus = value; }
+        private string _roleStatus;
     }
 }

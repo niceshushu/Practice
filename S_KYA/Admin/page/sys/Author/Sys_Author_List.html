@@ -1,7 +1,105 @@
 ﻿<div id="PSys_Author_List" class="easyui-layout" data-options="fit:true,border:false">
 
-    <div data-options="region:'west',title:'West',split:true" style="width:20%;"></div>
-    <div data-options="region:'center',title:'center title'" style="padding:5px;background:#eee;">
-        
+    <div data-options="region:'west',split:true" style="width:20%;">
+        <a id="PSys_Author_tree_save" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-save'">保存</a>
+        <!--放tree，tree里是所有的菜单和按钮，并且按照当前用户的授权勾选-->
+        <ul id="PSys_Author_tree" class="easyui-tree"></ul>
     </div>
-</div>  
+    <div data-options="region:'center'" style="padding:5px;background:#eee;">
+        <table id="dgAuthorList" data-options="fit:true,border:false"></table>
+    </div>
+</div>
+<script type="text/javascript">
+    //初始化左侧菜单和按钮
+    $('#PSys_Author_tree').tree({
+        //url:"ashx/sys/Easyui_MenuTreeHandler.ashx?floor=all",
+        checkbox: true,//显示勾选框
+        lines: true,
+        data:
+            [
+                {
+                    "text": "其它管理",
+                    "attributes": {
+                        "attr": "menu",
+                        "inp": 1
+                    } },
+                {
+                    "text": "个人中心",
+                    "attributes": {
+                        "attr": "menu",
+                        "inp": 1
+                    }},
+                {
+                    "id": 1,
+                    "text": "系统设置",
+                    "children": [
+                        {
+                            "text": "菜单设置",
+                            "attributes": {
+                                "attr": "menu",
+                                "inp": 1
+                            },
+                            "checked": true
+
+                        },
+                        {
+                            "text": "用户管理",
+                            "attributes": {
+                                "attr": "menu",
+                                "inp": 1
+                            },
+                            "children": [{
+                                "text": "编辑",
+                                "attributes": {
+                                    "attr": "btn",
+                                    "inp": 1
+                                },
+                                "checked": true
+                            }, {
+                                "text": "帮助",
+                                "attributes": {
+                                    "attr": "btn",
+                                    "idp": 2
+                                }
+                            }]
+                        },
+                        {
+                            "text": "授权管理"
+                        }
+                        ,
+                        {
+                            "text": "角色管理"
+                        }
+
+                    ]
+                }],
+        onCheck: PSysAuthortreeSelect
+    });
+    function PSysAuthortreeSelect(node) {
+        console.log(node);
+    }
+
+    //初始化右侧数据表
+    $('#dgAuthorList').datagrid({
+        url: "ashx/sys/Sys_Role.ashx?opertype=getList",
+        columns: [[
+            { field: 'RoleID', title: 'ID', width: 100 },
+            { field: 'RoleName', title: '角色名称', width: 100 },
+            { field: 'RoleStatusName', title: '角色状态', width: 100 }
+        ]],
+        onSelect: dgAuthorListRowSelect,
+        singleSelect: true,//单行选择
+        pagination: true,
+        pageSize: 5,
+        pageList: [5, 20, 40, 60, 80, 100]
+    });
+
+    //选中行事件
+    function dgAuthorListRowSelect(index, row) {
+        //点击之后,左侧的
+        console.log(index);
+        console.log(row);
+    }
+
+
+</script>

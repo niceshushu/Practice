@@ -144,6 +144,16 @@ namespace S_KYA.Admin.ashx.sys
             }
         }
 
+        public string BindData()
+        {
+            StringBuilder sbTreeNode = new StringBuilder("[{" +
+                "id:-1" +
+                "text:'keyouai'" +
+                "" +
+                "}]");
+            return "";
+        }
+
         ///// <summary>
         ///// 检测权限
         ///// </summary>

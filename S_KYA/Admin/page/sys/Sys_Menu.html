@@ -75,14 +75,14 @@
             },
             function (rdata) {
                 psmSetReadOnly(false);
-                console.log(rdata);
+                //console.log(rdata);
                 $("#pmenu_tree").tree({
                     data: rdata,
                     onClick: function (node) {
-                        console.log(node.id);
-                        console.log(node);
-                        console.log(node.text + ":" + node.state);//节点名称 : 展开状态
-                        console.log(node.attributes);//节点名称 : 展开状态
+                        //console.log(node.id);
+                        //console.log(node);
+                        //console.log(node.text + ":" + node.state);//节点名称 : 展开状态
+                        //console.log(node.attributes);//节点名称 : 展开状态
                         //$(this).tree(node.state === 'closed' ? 'expand' : 'collapse', node.target);
                         //node.state = node.state === 'closed' ? 'open' : 'closed';
                         $("#pmenuId").val(node.id);

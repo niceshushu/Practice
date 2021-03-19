@@ -176,7 +176,7 @@
                                         $("#tree" + id).tree('options').url = "ashx/sys/Easyui_MenuTreeHandler.ashx?id=" + node.id;
                                     },
                                     onClick: function (node) {
-                                        console.log(node);
+                                        //console.log(node);
                                         if (node.attributes != "COMMON_NULL") {
                                             addTab(node.text, node.attributes, node.iconCls, node.id);
                                         }
