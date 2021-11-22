@@ -20,7 +20,7 @@ namespace S_KYA.ashx
         {
             //初始化密码
             string passalt = StringHelper.RandomString(4);
-            string pwd= StringHelper.MD5string("111111" + passalt);
+            string pwd = StringHelper.MD5string("111111" + passalt);
             //初始化密码
             string pwdss = StringHelper.MD5string("111111" + StringHelper.RandomString(4));
             context.Response.ContentType = "text/plain";
@@ -30,54 +30,62 @@ namespace S_KYA.ashx
             var saveCookieDays = PublicMethod.GetInt(context.Request["savedays"]);
             var msg = new { success = false, message = "用户名不存在" };
 
-
-            if (!Validate.Validation(validateCode))
+            //Session登录
+            if (Sys_User != null)
             {
-                msg = new { success = false, message = "验证码错误" };
+                msg = new { success = true, message = "ok" };
             }
             else
             {
-                try
+                if (!Validate.Validation(validateCode))
                 {
-                    Mod_Sys_User u = S_KYA_Core.Dal.Dal_Sys_User.Instance.testGetUser(username);
-                    if (u != null)
+                    msg = new { success = false, message = "验证码错误" };
+                }
+                else
+                {
+                    try
                     {
-                        if (!u.IsDisabled)
+                        Mod_Sys_User u = S_KYA_Core.Dal.Dal_Sys_User.Instance.testGetUser(username);
+                        if (u != null)
                         {
-                            bool flag = Bll_Sys_User.Instance.UserLogin(username, password, saveCookieDays);
-                            if (flag)
+                            if (!u.IsDisabled)
                             {
-                                msg = new { success = true, message = "ok" };
-                                Sys_User = u;
+                                bool flag = Bll_Sys_User.Instance.UserLogin(username, password, saveCookieDays);
+                                if (flag)
+                                {
+                                    msg = new { success = true, message = "ok" };
+                                    u.ExpiresTime = DateTime.Now.AddDays(saveCookieDays);
+                                    Sys_User = u;
+                                }
+                                else
+                                {
+                                    msg = new { success = false, message = "亲，用户名或密码不正确哦。" };
+                                }
                             }
                             else
                             {
-                                msg = new { success = false, message = "亲，用户名或密码不正确哦。" };
+                                msg = new { success = false, message = "亲，您的帐号已被禁用，请联系管理员吧。" };
                             }
+
+                            //msg = new { success = true, message = "ok" };//跳过验证，随便都可以登录
                         }
                         else
                         {
-                            msg = new { success = false, message = "亲，您的帐号已被禁用，请联系管理员吧。" };
+                            msg = new { success = false, message = "亲，用户名或密码不正确哦。" };
                         }
-
-                        //msg = new { success = true, message = "ok" };//跳过验证，随便都可以登录
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        msg = new { success = false, message = "亲，用户名或密码不正确哦。" };
+                        msg = new { success = false, message = $"系统错误:【{ex.Message}】请联系开发人员" };
                     }
+
                 }
-                catch (Exception ex)
-                {
-                    msg = new { success = false, message = $"系统错误:【{ex.Message}】请联系开发人员" };
-                }
-            
+
             }
-
-
             context.Response.Write(JSONhelper.ToJson(msg));
             context.Response.End();
         }
+
     }
 }
 /*

@@ -556,6 +556,7 @@
     <Content Include="Admin\ashx\sys\Sys_BtnHandler.ashx" />
     <Content Include="Admin\ashx\kBufferHandler.ashx" />
     <Content Include="Admin\ashx\sys\Sys_AuthorHandler.ashx" />
+    <Content Include="Admin\ashx\LogOutHandler.ashx" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -576,6 +577,9 @@
     </Compile>
     <Compile Include="Admin\ashx\LoginHandler.ashx.cs">
       <DependentUpon>LoginHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ashx\LogOutHandler.ashx.cs">
+      <DependentUpon>LogOutHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="Admin\ashx\sys\Easyui_MenuTreeHandler.ashx.cs">
       <DependentUpon>Easyui_MenuTreeHandler.ashx</DependentUpon>

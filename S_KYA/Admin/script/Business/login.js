@@ -1,6 +1,7 @@
 ﻿var savecookdays = [{ "id": 7, "text": "保存7天", "selected": true }, { "id": 30, "text": "保存30天" }, { "id": 365, "text": "保存永久" }, { "id": 1, "text": "不保存" }];
 
 $(function () {
+    //checkSession();
     inintPanel();
 });
 

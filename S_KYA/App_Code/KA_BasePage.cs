@@ -9,7 +9,7 @@ using StackExchange.Redis;
 public abstract class KA_BasePage : IHttpHandler, IRequiresSessionState
 {
     //redis缓存开关,以后迁移到配置文件去吧
-    private static bool useRedis = false;
+    public static bool useRedis = false;
     private static Mod_Sys_User _Sys_User = null;
     public static Mod_Sys_User Sys_User
     {
@@ -28,8 +28,14 @@ public abstract class KA_BasePage : IHttpHandler, IRequiresSessionState
             }
             else
             {
+                if (HttpContext.Current.Request.Cookies["hello"] == null)
+                {
+                    return null;
+                }
+                var token = HttpContext.Current.Request.Cookies["hello"].Value;
+                var currentSession = HttpContext.Current.Session[token];
                 //传统Session
-                return _Sys_User = _Sys_User ?? HttpContext.Current.Session["kya_Sys_UserInfo"] as Mod_Sys_User;
+                return _Sys_User = currentSession == null ? null : currentSession as Mod_Sys_User;
             }
         }
         set
@@ -41,14 +47,17 @@ public abstract class KA_BasePage : IHttpHandler, IRequiresSessionState
                 {
                     //存Cookie，存Session
                     var token = MySessionService.Add(_Sys_User, "hha");
-                    HttpContext.Current.Response.Cookies.Clear();
+                    HttpContext.Current.Response.Cookies.Remove("hello");
                     HttpContext.Current.Response.Cookies.Add(new HttpCookie("hello", token));
                     HttpContext.Current.Response.Cookies["hello"].Expires = _Sys_User.ExpiresTime.AddMinutes(-2);//早两分钟失效
                 }
                 else
                 {
                     //传统Session
-                    HttpContext.Current.Session["kya_Sys_UserInfo"] = _Sys_User;
+                    HttpContext.Current.Session["UserId" + _Sys_User.UserId] = _Sys_User;
+                    HttpContext.Current.Response.Cookies.Remove("hello");
+                    HttpContext.Current.Response.Cookies.Add(new HttpCookie("hello", "UserId" + _Sys_User.UserId));
+                    HttpContext.Current.Response.Cookies["hello"].Expires = _Sys_User.ExpiresTime.AddMinutes(-2);//早两分钟失效
                 }
             }
         }
@@ -66,7 +75,7 @@ public abstract class KA_BasePage : IHttpHandler, IRequiresSessionState
     public static bool CheckRights(string Mid)
     {
         bool hasRight = false;
-        if (_Sys_User.UserName.ToLower() == "admin")
+        if (Sys_User.UserName.ToLower() == "admin")
         {
             return true;
         }
@@ -74,7 +83,7 @@ public abstract class KA_BasePage : IHttpHandler, IRequiresSessionState
         hasRight = false;
         //base.OperatorGroupIDs.Contains(p.Group_ID) && 
         List<Mod_Sys_Author> srg = (from p in kBuffer._Table_Sys_Author
-                                    where p.ResourceId.ToString() == Mid && p.RoleId == _Sys_User.RoleId && p.ResourceType == "1"
+                                    where p.ResourceId.ToString() == Mid && p.RoleId == Sys_User.RoleId && p.ResourceType == "1"
                                     orderby p.ResourceId, p.RoleId
                                     select p).ToList();
         if (srg != null && srg.Count > 0)
@@ -92,7 +101,7 @@ public abstract class KA_BasePage : IHttpHandler, IRequiresSessionState
     public static bool CheckButtonRights(string Bid)
     {
         bool hasRight = false;
-        if (_Sys_User.UserName.ToLower() == "admin")
+        if (Sys_User.UserName.ToLower() == "admin")
         {
             return true;
         }
@@ -100,7 +109,7 @@ public abstract class KA_BasePage : IHttpHandler, IRequiresSessionState
         hasRight = false;
         //base.OperatorGroupIDs.Contains(p.Group_ID) && 
         List<Mod_Sys_Author> srg = (from p in kBuffer._Table_Sys_Author
-                                    where p.ResourceId.ToString() == Bid && p.RoleId == _Sys_User.RoleId && p.ResourceType == "2"
+                                    where p.ResourceId.ToString() == Bid && p.RoleId == Sys_User.RoleId && p.ResourceType == "2"
                                     orderby p.ResourceId, p.RoleId
                                     select p).ToList();
         if (srg != null && srg.Count > 0)

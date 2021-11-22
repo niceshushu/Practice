@@ -62,6 +62,12 @@
     </div>
     <!--全局的工具栏End-->
     <script type="text/javascript">
+        function loginOut() {
+           $.post('ashx/LogOutHandler.ashx',function(reslut){
+                    console.log(reslut)
+                    window.location.href='/Admin/page/login.html';
+             });
+        }
         $("#tt").tabs({
             tools: [{
                 iconCls: 'icon-arrow_refresh',
