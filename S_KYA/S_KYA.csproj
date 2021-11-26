@@ -557,6 +557,7 @@
     <Content Include="Admin\ashx\kBufferHandler.ashx" />
     <Content Include="Admin\ashx\sys\Sys_AuthorHandler.ashx" />
     <Content Include="Admin\ashx\LogOutHandler.ashx" />
+    <Content Include="Admin\ashx\LoginBeforeHandler.ashx" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -574,6 +575,9 @@
   <ItemGroup>
     <Compile Include="Admin\ashx\kBufferHandler.ashx.cs">
       <DependentUpon>kBufferHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ashx\LoginBeforeHandler.ashx.cs">
+      <DependentUpon>LoginBeforeHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="Admin\ashx\LoginHandler.ashx.cs">
       <DependentUpon>LoginHandler.ashx</DependentUpon>

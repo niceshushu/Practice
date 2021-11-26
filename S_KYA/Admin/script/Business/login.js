@@ -1,7 +1,7 @@
 ﻿var savecookdays = [{ "id": 7, "text": "保存7天", "selected": true }, { "id": 30, "text": "保存30天" }, { "id": 365, "text": "保存永久" }, { "id": 1, "text": "不保存" }];
 
 $(function () {
-    //checkSession();
+    AutoLogin();
     inintPanel();
 });
 
@@ -34,7 +34,7 @@ function inintPanel() {
         }
     });
     $(this).keydown(function (event) {
-        if (event.keyCode == 13) {
+        if (event.keyCode === 13) {
             event.returnValue = false;
             event.cancel = true;
             return login();
@@ -52,8 +52,8 @@ function login() {
                 $.messager.show({
                     title: '登录中...',
                     timeout: 500,
-                showType:'slide'
-            });
+                    showType: 'slide'
+                });
             }
             return isValid;
         },
@@ -62,6 +62,22 @@ function login() {
             if (!data.success) {
                 $('#imgValidateCode').click();
                 $.messager.alert('错误', data.message, 'error');
+            }
+            else {
+                location.href = "../index.html";
+            }
+        }
+    });
+}
+//自动登录
+function AutoLogin() {
+    $.ajax({
+        url: "../ashx/LoginBeforeHandler.ashx",
+        success: function (res) {
+            console.log(res);
+            var data = JSON.parse(res);
+            if (!data.success) {
+                console.log("session登录失败");
             }
             else {
                 location.href = "../index.html";
