@@ -32,11 +32,11 @@
 <script type="text/javascript">
 
     $('#roleList_btnInsert').bind('click', function () {
-        initEditFrame("add");
+        initRoleEditFrame("add");
     });
     $('#roleList_btnEdit').linkbutton({ iconCls: 'icon-edit', text: '编辑', plain: true });
     $('#roleList_btnEdit').bind('click', function () {
-        initEditFrame("edit");
+        initRoleEditFrame("edit");
     });
     $('#roleList_btnDel').linkbutton({ iconCls: 'icon-delete', text: '删除', plain: true });
     $('#roleList_btnDel').bind('click', function () {
@@ -60,7 +60,7 @@
     });
 
     //根据操作类型打开窗口
-    function initEditFrame(operatorType) {
+    function initRoleEditFrame(operatorType) {
         let haveChange = false;
 
         let row = $('#PSys_Role_dg').datagrid('getSelections');

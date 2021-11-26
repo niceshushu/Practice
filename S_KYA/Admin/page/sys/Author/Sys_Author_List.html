@@ -15,64 +15,65 @@
         //url:"ashx/sys/Easyui_MenuTreeHandler.ashx?floor=all",
         checkbox: true,//显示勾选框
         lines: true,
-        data:
-            [
-                {
-                    "text": "其它管理",
-                    "attributes": {
-                        "attr": "menu",
-                        "inp": 1
-                    } },
-                {
-                    "text": "个人中心",
-                    "attributes": {
-                        "attr": "menu",
-                        "inp": 1
-                    }},
-                {
-                    "id": 1,
-                    "text": "系统设置",
-                    "children": [
-                        {
-                            "text": "菜单设置",
-                            "attributes": {
-                                "attr": "menu",
-                                "inp": 1
-                            },
-                            "checked": true
+        url: "ashx/sys/Sys_AuthorHandler.ashx?operatorType=getTreeBtn",
+        //data:
+        //    [
+        //        {
+        //            "text": "其它管理",
+        //            "attributes": {
+        //                "attr": "menu",
+        //                "inp": 1
+        //            } },
+        //        {
+        //            "text": "个人中心",
+        //            "attributes": {
+        //                "attr": "menu",
+        //                "inp": 1
+        //            }},
+        //        {
+        //            "id": 1,
+        //            "text": "系统设置",
+        //            "children": [
+        //                {
+        //                    "text": "菜单设置",
+        //                    "attributes": {
+        //                        "attr": "menu",
+        //                        "inp": 1
+        //                    },
+        //                    "checked": true
 
-                        },
-                        {
-                            "text": "用户管理",
-                            "attributes": {
-                                "attr": "menu",
-                                "inp": 1
-                            },
-                            "children": [{
-                                "text": "编辑",
-                                "attributes": {
-                                    "attr": "btn",
-                                    "inp": 1
-                                },
-                                "checked": true
-                            }, {
-                                "text": "帮助",
-                                "attributes": {
-                                    "attr": "btn",
-                                    "idp": 2
-                                }
-                            }]
-                        },
-                        {
-                            "text": "授权管理"
-                        }
-                        ,
-                        {
-                            "text": "角色管理"
-                        }
+        //                },
+        //                {
+        //                    "text": "用户管理",
+        //                    "attributes": {
+        //                        "attr": "menu",
+        //                        "inp": 1
+        //                    },
+        //                    "children": [{
+        //                        "text": "编辑",
+        //                        "attributes": {
+        //                            "attr": "btn",
+        //                            "inp": 1
+        //                        },
+        //                        "checked": true
+        //                    }, {
+        //                        "text": "帮助",
+        //                        "attributes": {
+        //                            "attr": "btn",
+        //                            "idp": 2
+        //                        }
+        //                    }]
+        //                },
+        //                {
+        //                    "text": "授权管理"
+        //                }
+        //                ,
+        //                {
+        //                    "text": "角色管理"
+        //                }
 
-                    ]
-                }],
+        //            ]
+        //        }],
         onCheck: PSysAuthortreeSelect
     });
     function PSysAuthortreeSelect(node) {

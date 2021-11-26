@@ -3,11 +3,13 @@
 $(function () {
     AutoLogin();
     inintPanel();
+    
 });
 
 
 //初始化登录面板
 function inintPanel() {
+   
     $("<div/>").dialog({
         title: 'login', modal: false,
         width: 300, height: 250,
@@ -30,7 +32,7 @@ function inintPanel() {
             $('#imgValidateCode').click(function () {
                 $(this).attr('src', "../ashx/ValidateCode.ashx?t=4&n=" + Math.random());
             });
-
+            $('#imgValidateCode').attr('src', "../ashx/ValidateCode.ashx?t=4&n=" + Math.random());
         }
     });
     $(this).keydown(function (event) {
@@ -71,6 +73,7 @@ function login() {
 }
 //自动登录
 function AutoLogin() {
+
     $.ajax({
         url: "../ashx/LoginBeforeHandler.ashx",
         success: function (res) {

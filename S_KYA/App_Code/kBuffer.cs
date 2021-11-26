@@ -27,9 +27,26 @@ public partial class kBuffer
         }
     }
 
+    private static List<Mod_Sys_Btn> Table_Sys_Btn = null;
+    public static List<Mod_Sys_Btn> _Table_Sys_Btn
+    {
+        get
+        {
+            if (Table_Sys_Btn == null)
+            {
+                _Fresh_Table_Sys_Btn();
+            }
+            return Table_Sys_Btn;
+        }
+    }
+
     public static void _Fresh_Table_Sys_Menu()
     {
         Table_Sys_Menu = S_KYA_Core.Bll.Bll_Sys_Menu.Instance.GetList(null);
+    }
+    public static void _Fresh_Table_Sys_Btn()
+    {
+        Table_Sys_Btn = S_KYA_Core.Bll.Bll_Sys_Btn.Instance.getSysBtnList(null);
     }
 
     #endregion

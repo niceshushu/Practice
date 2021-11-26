@@ -118,4 +118,9 @@ public abstract class KA_BasePage : IHttpHandler, IRequiresSessionState
         }
         return hasRight;
     }
+
+    public static bool CheckUserIsLogin()
+    {
+        return Sys_User == null ? false : true;
+    }
 }

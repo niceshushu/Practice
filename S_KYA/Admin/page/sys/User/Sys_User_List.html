@@ -50,10 +50,10 @@
 
     });
     function psysUserbtnHelp() {
-        initEditFrame("edit");
+        initUserEditFrame("edit");
     }
     function psysUserbtnEdit() {
-        initEditFrame("add");
+        initUserEditFrame("add");
     }
 
     function loadGrid(data) {
@@ -94,7 +94,7 @@
     }
 
     //根据操作类型打开窗口
-    function initEditFrame(operatorType) {
+    function initUserEditFrame(operatorType) {
         let haveChange = false;//是否有值改变--决定是否刷新datagrid
         let row = $('#PSys_User_dg').datagrid('getSelections');
         let currentWidth = 400;
